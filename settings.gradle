@@ -1,0 +1,6 @@
+rootProject.name = 'agaat-pnae-java'
+
+include 'domain'
+include 'application'
+include 'infra'
+

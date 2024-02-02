@@ -1,0 +1,14 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+
+    testImplementation "org.junit:junit-bom:${junitVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter"
+
+}
+
+repositories {
+    mavenCentral()
+}
