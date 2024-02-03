@@ -7,11 +7,11 @@ public record CecaneNome(String value) {
     public CecaneNome {
 
         if (value == null || value.isBlank()) {
-            throw new DomainException("Nome da cecane não pode ser nulo ou vazio");
+            throw new DomainException("Nome do Cecane não pode ser nulo ou vazio");
         }
 
         if (value.length() > 255) {
-            throw new DomainException("Nome da cecane não pode ter mais de 255 caracteres");
+            throw new DomainException("Nome do Cecane não pode ter mais de 255 caracteres");
         }
     }
 }

@@ -8,7 +8,7 @@ public class Cecane extends AggregateRoot<CecaneId> {
 
     public CecaneNome nome;
 
-    Cecane(CecaneId cecaneId, CecaneNome name) {
+    Cecane(final CecaneId cecaneId, final CecaneNome name) {
         super(cecaneId);
         this.nome = name;
     }

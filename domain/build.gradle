@@ -1,14 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-conventions'
 }
 
-dependencies {
-
-    testImplementation "org.junit:junit-bom:${junitVersion}"
-    testImplementation "org.junit.jupiter:junit-jupiter"
-
-}
-
-repositories {
-    mavenCentral()
-}
+group = 'br.gov.pnae.agaat.domain'
