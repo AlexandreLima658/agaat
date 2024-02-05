@@ -38,7 +38,6 @@ public class CecaneRepositoryInMemory implements CecaneRepository {
 
     @Override
     public void update(final Cecane cecane) {
-
         final var cecaneId = cecane.id().value();
 
         final var persistedCecane = this.findById(cecaneId)
@@ -46,5 +45,13 @@ public class CecaneRepositoryInMemory implements CecaneRepository {
 
         cecanes.put(cecaneId, cecane);
 
+    }
+
+    @Override
+    public void deleteById(final Long id) {
+        final var persistedCecane = this.findById(id)
+                .orElseThrow(() -> new DomainException("Cecane not found"));
+
+        cecanes.remove(id);
     }
 }

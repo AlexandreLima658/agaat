@@ -12,4 +12,5 @@ public interface CecaneRepository {
 
     void update(final Cecane cecane);
 
+    void deleteById(final Long id);
 }
