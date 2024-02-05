@@ -3,19 +3,24 @@ package br.gov.pnae.agaat.application.cecanes;
 import br.gov.pnae.agaat.application.UseCase;
 import br.gov.pnae.agaat.domain.cecanes.Cecane;
 import br.gov.pnae.agaat.domain.cecanes.CecaneFactory;
-import br.gov.pnae.agaat.domain.cecanes.fields.CecaneNome;
+import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
+import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneNome;
 import jakarta.inject.Named;
 
 @Named
 public class CreateCecaneUseCase extends UseCase<CreateCecaneUseCase.Input, CreateCecaneUseCase.Output> {
 
+    private final CecaneRepository repository;
+
+    public CreateCecaneUseCase(final CecaneRepository repository) {
+        this.repository = repository;
+    }
+
     public Output execute(final Input input) {
 
         final var cecane = input.toAggregate();
 
-        System.out.println("Criando cecane: " + cecane.getName());
-
-        // salvar no banco de dados
+        repository.persist(cecane);
 
         return Output.fromAggregate(cecane);
     }
@@ -34,7 +39,7 @@ public class CreateCecaneUseCase extends UseCase<CreateCecaneUseCase.Input, Crea
     public record Output(Long id) {
 
         public static Output fromAggregate(final Cecane cecane) {
-            final var id = cecane.getId().getValue();
+            final var id = cecane.id().value();
 
             return new Output(
                     id
