@@ -1,19 +1,19 @@
 package br.gov.pnae.agaat.domain.cecanes;
 
-import br.gov.pnae.agaat.domain.cecanes.fields.CecaneId;
-import br.gov.pnae.agaat.domain.cecanes.fields.CecaneNome;
+import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
+import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneNome;
 import br.gov.pnae.agaat.domain.commons.entities.AggregateRoot;
 
 public class Cecane extends AggregateRoot<CecaneId> {
 
     public CecaneNome nome;
 
-    Cecane(final CecaneId cecaneId, final CecaneNome name) {
+    Cecane(final CecaneId cecaneId, final CecaneNome nome) {
         super(cecaneId);
-        this.nome = name;
+        this.nome = nome;
     }
 
-    public String getName() {
+    public String nome() {
         return nome.value();
     }
 

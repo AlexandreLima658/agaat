@@ -12,7 +12,7 @@ public abstract class BaseEntity<Id extends Identifier<?>> {
         this.id = id;
     }
 
-    public Id getId() {
+    public Id id() {
         return id;
     }
 

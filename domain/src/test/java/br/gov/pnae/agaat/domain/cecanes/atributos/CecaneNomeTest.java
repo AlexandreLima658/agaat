@@ -1,4 +1,4 @@
-package br.gov.pnae.agaat.domain.cecanes.fields;
+package br.gov.pnae.agaat.domain.cecanes.atributos;
 
 import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
 import org.junit.jupiter.api.Tag;

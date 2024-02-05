@@ -8,7 +8,7 @@ public abstract class Identifier<T> {
         this.value = value;
     }
 
-    public T getValue() {
+    public T value() {
         return value;
     }
 
