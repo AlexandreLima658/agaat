@@ -4,7 +4,7 @@ import br.gov.pnae.agaat.domain.commons.ids.Identifier;
 
 import java.util.UUID;
 
-public final class CecaneId extends Identifier<Long> {
+public class CecaneId extends Identifier<Long> {
     private CecaneId(final Long value) {
         super(value);
     }
