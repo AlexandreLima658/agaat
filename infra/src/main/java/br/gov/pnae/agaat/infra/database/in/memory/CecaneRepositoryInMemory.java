@@ -44,7 +44,6 @@ public class CecaneRepositoryInMemory implements CecaneRepository {
                 .orElseThrow(() -> new DomainException("Cecane not found"));
 
         cecanes.put(cecaneId, cecane);
-
     }
 
     @Override

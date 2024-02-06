@@ -16,5 +16,4 @@ public class CecaneId extends Identifier<Long> {
     public static CecaneId generate() {
         return new CecaneId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
     }
-
 }
