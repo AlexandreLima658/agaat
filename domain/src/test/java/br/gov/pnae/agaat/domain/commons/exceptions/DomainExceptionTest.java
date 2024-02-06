@@ -13,6 +13,7 @@ class DomainExceptionTest {
         final DomainException domainException = new DomainException(message);
         //then
         assert domainException.getMessage().equals(message);
+
     }
 
     @Test
