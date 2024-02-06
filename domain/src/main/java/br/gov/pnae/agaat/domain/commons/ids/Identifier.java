@@ -1,7 +1,6 @@
 package br.gov.pnae.agaat.domain.commons.ids;
 
 public abstract class Identifier<T> {
-
     private final T value;
 
     protected Identifier(final T value) {
@@ -25,5 +24,4 @@ public abstract class Identifier<T> {
 
         return value.equals(that.value);
     }
-
 }

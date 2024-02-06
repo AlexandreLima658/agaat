@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("unitTest")
 class CecaneNomeTest {
-
     @Test
     void shouldCreateCecaneNome() {
         // given
@@ -60,5 +59,4 @@ class CecaneNomeTest {
         // then
         assertEquals(exceptionMessage, exception.getMessage());
     }
-
 }
