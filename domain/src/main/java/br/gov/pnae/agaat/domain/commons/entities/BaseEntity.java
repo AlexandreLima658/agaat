@@ -5,7 +5,6 @@ import br.gov.pnae.agaat.domain.commons.ids.Identifier;
 import java.util.Objects;
 
 public abstract class BaseEntity<Id extends Identifier<?>> {
-
     private final Id id;
 
     protected BaseEntity(final Id id) {
