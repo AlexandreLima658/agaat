@@ -1,8 +1,9 @@
-package br.gov.pnae.agaat.infra.rest.cecanes;
+package br.gov.pnae.agaat.infra.rest.cecanes.controllers;
 
 import br.gov.pnae.agaat.application.cecanes.create.CreateCecaneUseCase;
 import br.gov.pnae.agaat.application.cecanes.create.Input;
 import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
+import br.gov.pnae.agaat.infra.rest.cecanes.CecaneAPI;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,8 +14,7 @@ import java.net.URI;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/cecanes")
-public class CecaneController {
+public class CecaneController  implements CecaneAPI {
 
     private final CreateCecaneUseCase useCase;
 
@@ -23,7 +23,7 @@ public class CecaneController {
     }
 
 
-    @PostMapping
+    @Override
     public ResponseEntity<?> create(@RequestBody final Input input) {
 
         try {
