@@ -5,28 +5,74 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class IdentifierTest {
-    class IdentifierClass extends Identifier<Long> {
-        protected IdentifierClass(final Long value) {
-            super(value);
-        }
-    }
-
     @Test
     void shouldCreateIdentifier() {
         // given
-        var id = new IdentifierClass(1L);
+        final var expectedIdValue = 1L;
+
+        // when
+        final var id = new Identifier<Long>(expectedIdValue) {};
 
         // then
-        assertEquals(id, new IdentifierClass(1L));
+        assertNotNull(id);
+        assertEquals(expectedIdValue, id.value());
     }
 
     @Test
-    void shouldCreateIdentifierAndReturnsHashCode() {
+    void shouldCreateIdentifierThenCompare() {
         // given
-        var primaryId = new IdentifierClass(1L);
-        var secondId = new IdentifierClass(1L);
+        final var expectedIdValue = 1L;
+
+        // when
+        final var id = new Identifier<Long>(expectedIdValue) {};
 
         // then
-        assertEquals(primaryId.hashCode(), secondId.hashCode());
+        assertNotNull(id);
+        assertEquals(expectedIdValue, id.value());
+    }
+
+    @Test
+    void shouldCreateIdentifierThenCompareWithNullableGenericObject() {
+        // given
+        final var expectedIdValue = 1L;
+
+        // when
+        final var id = new Identifier<Long>(1L) {};
+
+        // then
+        assertNotNull(id);
+        assertEquals(expectedIdValue, id.value());
+        assertFalse(id.equals(null));
+        assertFalse(id.equals(new Object()));
+    }
+
+    @Test
+    void shouldCreateIdentifiersThenCompareValue() {
+        class IdentifierClass extends Identifier<Long> {
+            protected IdentifierClass(Long value) {
+                super(value);
+            }
+        }
+
+        // when
+        final var firstId = new IdentifierClass(1L);
+        final var secondId = new IdentifierClass(1L);
+
+        // then
+        assertNotNull(firstId);
+        assertNotNull(secondId);
+        assertTrue(firstId.equals(secondId));
+    }
+
+    @Test
+    void shouldCreateIdentifiersAndCompareHashCode() {
+        // when
+        final var firstId = new Identifier<Long>(1L) {};
+        final var secondId = new Identifier<Long>(1L) {};
+
+        // then
+        assertNotNull(firstId);
+        assertNotNull(secondId);
+        assertEquals(firstId.hashCode(), secondId.hashCode());
     }
 }
