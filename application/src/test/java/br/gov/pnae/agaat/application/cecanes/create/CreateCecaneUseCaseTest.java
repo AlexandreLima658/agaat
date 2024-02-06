@@ -1,14 +1,5 @@
 package br.gov.pnae.agaat.application.cecanes.create;
 
-<<<<<<< HEAD
-import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-@Tag("unitTest")
-class CreateCecaneUseCaseTest {
-    void shouldCreateCecaneUseCase(){
-=======
 import br.gov.pnae.agaat.domain.cecanes.Cecane;
 import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
 import org.junit.jupiter.api.Tag;
@@ -32,7 +23,7 @@ class CreateCecaneUseCaseTest {
             Output output = createCecaneUseCase.execute(input);
             //then
             verify(mockCecaneRepository, times(0)).persist(cecane);
->>>>>>> 04cdf178bc7ec85f9fcf19dba46324573e11a574
+
 
     }
 }
