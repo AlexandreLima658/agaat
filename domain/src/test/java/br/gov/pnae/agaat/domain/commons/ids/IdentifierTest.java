@@ -1,9 +1,10 @@
 package br.gov.pnae.agaat.domain.commons.ids;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@Tag("unitTest")
 class IdentifierTest {
     @Test
     void shouldCreateIdentifier() {
