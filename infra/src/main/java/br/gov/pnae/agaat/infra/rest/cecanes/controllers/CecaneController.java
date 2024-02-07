@@ -6,10 +6,9 @@ import br.gov.pnae.agaat.application.cecanes.retrieve.GetCecaneByIdUseCase;
 import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
 import br.gov.pnae.agaat.infra.rest.cecanes.CecaneAPI;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.CecaneResponse;
+import br.gov.pnae.agaat.infra.rest.cecanes.models.UpdateCecaneRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
@@ -49,5 +48,14 @@ public class CecaneController  implements CecaneAPI {
         } catch (final DomainException e) {
             return null; // ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @Override
+    public ResponseEntity<?> update(final Long id, final UpdateCecaneRequest input) {
+        return null;
+    }
+
+    @Override
+    public void delete(Long id) {
     }
 }
