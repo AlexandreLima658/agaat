@@ -5,13 +5,9 @@ import br.gov.pnae.agaat.application.cecanes.create.Input;
 import br.gov.pnae.agaat.application.cecanes.retrieve.GetCecaneByIdUseCase;
 import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
 import br.gov.pnae.agaat.infra.rest.cecanes.CecaneAPI;
-<<<<<<< HEAD
 import br.gov.pnae.agaat.infra.rest.cecanes.models.CecaneApiOutput;
 import br.gov.pnae.agaat.infra.rest.cecanes.presenters.CecaneApiPresenter;
-=======
-import br.gov.pnae.agaat.infra.rest.cecanes.models.CecaneResponse;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.UpdateCecaneRequest;
->>>>>>> 5a084dbc88c50f3e3944c76c62e5f5997a41eb88
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

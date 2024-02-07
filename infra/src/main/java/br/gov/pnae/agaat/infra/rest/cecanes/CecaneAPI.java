@@ -1,12 +1,8 @@
 package br.gov.pnae.agaat.infra.rest.cecanes;
 
 import br.gov.pnae.agaat.application.cecanes.create.Input;
-<<<<<<< HEAD
 import br.gov.pnae.agaat.infra.rest.cecanes.models.CecaneApiOutput;
-=======
 import br.gov.pnae.agaat.infra.rest.cecanes.models.UpdateCecaneRequest;
-import br.gov.pnae.agaat.infra.rest.cecanes.models.CecaneResponse;
->>>>>>> 5a084dbc88c50f3e3944c76c62e5f5997a41eb88
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -36,10 +32,8 @@ public interface CecaneAPI {
             @ApiResponse(responseCode = "404", description = "Cecane não foi encontrado"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
     })
-<<<<<<< HEAD
+
     CecaneApiOutput getById(@PathVariable(name = "id") Long id);
-=======
-    CecaneResponse getById(@PathVariable(name = "id") Long id);
     @PutMapping(
             value = "{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -66,5 +60,4 @@ public interface CecaneAPI {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
     })
     void delete(@PathVariable(name = "id") Long id);
->>>>>>> 5a084dbc88c50f3e3944c76c62e5f5997a41eb88
 }
