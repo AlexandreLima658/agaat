@@ -2,7 +2,9 @@ package br.gov.pnae.agaat.infra.database.in.memory;
 
 import br.gov.pnae.agaat.domain.cecanes.Cecane;
 import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
+import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
 import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
+import br.gov.pnae.agaat.domain.commons.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -19,8 +21,8 @@ public class CecaneRepositoryInMemory implements CecaneRepository {
     }
 
     @Override
-    public Optional<Cecane> findById(final Long id) {
-        return Optional.ofNullable(cecanes.get(id));
+    public Optional<Cecane> findById(final CecaneId id) {
+        return Optional.ofNullable(cecanes.get(id.value()));
     }
 
     @Override
@@ -38,19 +40,19 @@ public class CecaneRepositoryInMemory implements CecaneRepository {
 
     @Override
     public void update(final Cecane cecane) {
-        final var cecaneId = cecane.id().value();
+        final var cecaneId = cecane.id();
 
         final var persistedCecane = this.findById(cecaneId)
-                .orElseThrow(() -> new DomainException("Cecane not found"));
+                .orElseThrow(() -> NotFoundException.with(Cecane.class, cecaneId));
 
-        cecanes.put(cecaneId, cecane);
+        cecanes.put(cecaneId.value(), cecane);
     }
 
     @Override
-    public void deleteById(final Long id) {
+    public void deleteById(final CecaneId id) {
         final var persistedCecane = this.findById(id)
-                .orElseThrow(() -> new DomainException("Cecane not found"));
+                .orElseThrow(() -> NotFoundException.with(Cecane.class, id));
 
-        cecanes.remove(id);
+        cecanes.remove(id.value());
     }
 }

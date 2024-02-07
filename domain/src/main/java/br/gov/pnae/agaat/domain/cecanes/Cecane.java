@@ -13,6 +13,10 @@ public class Cecane extends AggregateRoot<CecaneId> {
         this.nome = nome;
     }
 
+    public void update(CecaneNome nome) {
+        this.nome = nome;
+    }
+
     public String nome() {
         return nome.value();
     }

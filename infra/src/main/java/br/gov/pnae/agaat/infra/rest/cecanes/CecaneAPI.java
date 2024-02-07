@@ -2,6 +2,7 @@ package br.gov.pnae.agaat.infra.rest.cecanes;
 
 import br.gov.pnae.agaat.application.cecanes.create.Input;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.CecaneApiOutput;
+import br.gov.pnae.agaat.infra.rest.cecanes.models.CreateCecaneRequest;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.UpdateCecaneRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,7 +24,7 @@ public interface CecaneAPI {
             @ApiResponse(responseCode = "422", description = "A validação falhou"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
     })
-    ResponseEntity<?> create(@RequestBody Input input);
+    ResponseEntity<?> create(@RequestBody CreateCecaneRequest input);
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Obter uma Cecane pelo seu identificador")
@@ -34,6 +35,7 @@ public interface CecaneAPI {
     })
 
     CecaneApiOutput getById(@PathVariable(name = "id") Long id);
+
     @PutMapping(
             value = "{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -47,6 +49,7 @@ public interface CecaneAPI {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
     })
     ResponseEntity<?> update(@PathVariable(name = "id") Long id , @RequestBody UpdateCecaneRequest input);
+
     @DeleteMapping(
             value = "{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
