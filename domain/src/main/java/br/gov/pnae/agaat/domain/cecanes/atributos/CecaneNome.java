@@ -4,7 +4,7 @@ import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
 
 public record CecaneNome(String value) {
 
-    public CecaneNome {
+    public  CecaneNome {
 
         if (value == null || value.isBlank()) {
             throw new DomainException("Nome do Cecane não pode ser nulo ou vazio");
