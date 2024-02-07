@@ -5,11 +5,10 @@ import br.gov.pnae.agaat.application.cecanes.create.Input;
 import br.gov.pnae.agaat.application.cecanes.retrieve.GetCecaneByIdUseCase;
 import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
 import br.gov.pnae.agaat.infra.rest.cecanes.CecaneAPI;
-import br.gov.pnae.agaat.infra.rest.cecanes.models.CecaneResponse;
+import br.gov.pnae.agaat.infra.rest.cecanes.models.CecaneApiOutput;
+import br.gov.pnae.agaat.infra.rest.cecanes.presenters.CecaneApiPresenter;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
@@ -40,14 +39,8 @@ public class CecaneController  implements CecaneAPI {
     }
 
     @Override
-    public CecaneResponse getById(final Long id) {
-        try {
-            final var output = getCecaneByIdUseCase.execute(id);
-            final var uri = URI.create("/cecanes/" + output.id());
-
-            return new CecaneResponse(output.id(), output.nome());
-        } catch (final DomainException e) {
-            return null; // ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public CecaneApiOutput getById(final Long id) {
+        // final var uri = URI.create("/cecanes/" + output.id());
+        return CecaneApiPresenter.present(this.getCecaneByIdUseCase.execute(id));
     }
 }

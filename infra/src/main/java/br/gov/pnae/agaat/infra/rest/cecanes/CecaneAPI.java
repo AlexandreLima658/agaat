@@ -1,7 +1,7 @@
 package br.gov.pnae.agaat.infra.rest.cecanes;
 
 import br.gov.pnae.agaat.application.cecanes.create.Input;
-import br.gov.pnae.agaat.infra.rest.cecanes.models.CecaneResponse;
+import br.gov.pnae.agaat.infra.rest.cecanes.models.CecaneApiOutput;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -23,12 +23,12 @@ public interface CecaneAPI {
     })
     ResponseEntity<?> create(@RequestBody Input input);
 
-    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Obter uma Cecane pelo seu identificador")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cecane recuperada com sucesso"),
             @ApiResponse(responseCode = "404", description = "Cecane não foi encontrado"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
     })
-    CecaneResponse getById(@PathVariable(name = "id") Long id);
+    CecaneApiOutput getById(@PathVariable(name = "id") Long id);
 }

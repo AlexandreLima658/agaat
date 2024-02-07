@@ -4,10 +4,14 @@ import br.gov.pnae.agaat.application.UseCase;
 import br.gov.pnae.agaat.application.cecanes.create.Output;
 import br.gov.pnae.agaat.domain.cecanes.Cecane;
 import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
+import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
+import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
+import br.gov.pnae.agaat.domain.commons.exceptions.NotFoundException;
 import jakarta.inject.Named;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @Named
 public class GetCecaneByIdUseCase extends UseCase<Long, GetCecaneByIdOutput> {
@@ -19,8 +23,12 @@ public class GetCecaneByIdUseCase extends UseCase<Long, GetCecaneByIdOutput> {
 
     @Override
     public GetCecaneByIdOutput execute(final Long id) {
-        final Optional<Cecane> cecane = this.repository.findById(id);
+        return this.repository.findById(id)
+                .map(GetCecaneByIdOutput::fromAggregate)
+                .orElseThrow(notFound(CecaneId.from(id)));
+    }
 
-        return GetCecaneByIdOutput.fromAggregate(cecane.get());
+    private static Supplier<DomainException> notFound(final CecaneId id) {
+        return () -> NotFoundException.with(Cecane.class, id);
     }
 }
