@@ -1,7 +1,6 @@
 package br.gov.pnae.agaat.application.cecanes.retrieve;
 
 import br.gov.pnae.agaat.application.UseCase;
-import br.gov.pnae.agaat.application.cecanes.create.Output;
 import br.gov.pnae.agaat.domain.cecanes.Cecane;
 import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;

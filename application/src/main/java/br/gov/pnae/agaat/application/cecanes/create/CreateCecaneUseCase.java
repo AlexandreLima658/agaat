@@ -10,14 +10,15 @@ import jakarta.inject.Named;
 import java.util.Objects;
 
 @Named
-public class CreateCecaneUseCase extends UseCase<Input, Either<Notification, Output>> {
+public class CreateCecaneUseCase extends UseCase<CreateCecaneInput, Either<Notification, CreateCecaneOutput>> {
     private final CecaneRepository repository;
 
     public CreateCecaneUseCase(final CecaneRepository repository) {
         this.repository = Objects.requireNonNull(repository);
     }
 
-    public Either<Notification, Output> execute(final Input input) {
+    @Override
+    public Either<Notification, CreateCecaneOutput> execute(final CreateCecaneInput input) {
         final var notification = Notification.create();
         final var cecane = input.toAggregate();
 
@@ -26,9 +27,9 @@ public class CreateCecaneUseCase extends UseCase<Input, Either<Notification, Out
         return notification.hasErrors() ? Either.left(notification) : create(cecane);
     }
 
-    private Either<Notification, Output> create(final Cecane cecane) {
+    private Either<Notification, CreateCecaneOutput> create(final Cecane cecane) {
         this.repository.persist(cecane);
 
-        return Either.right(Output.fromAggregate(cecane));
+        return Either.right(CreateCecaneOutput.fromAggregate(cecane));
     }
 }

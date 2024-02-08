@@ -15,12 +15,12 @@ class CreateCecaneUseCaseTest {
        CecaneRepository mockCecaneRepository = mock(CecaneRepository.class);
        CreateCecaneUseCase createCecaneUseCase = new CreateCecaneUseCase(mockCecaneRepository);
 
-         Input input = new Input("Cecane 1");
+         CreateCecaneInput input = new CreateCecaneInput("Cecane 1");
 
             Cecane cecane = input.toAggregate();
             when(mockCecaneRepository.persist(cecane)).thenReturn(cecane);
             //when
-            Output output = createCecaneUseCase.execute(input);
+            CreateCecaneOutput output = createCecaneUseCase.execute(input);
             //then
             verify(mockCecaneRepository, times(0)).persist(cecane);
 

@@ -11,7 +11,7 @@ class InputTest {
         //given
         String nome = "Cecane 1";
         //when
-        Input input = new Input(nome);
+        CreateCecaneInput input = new CreateCecaneInput(nome);
         //then
         assertNotNull(input);
     }
@@ -19,7 +19,7 @@ class InputTest {
     void shouldToAggregate(){
         //given
         String nome = "Cecane 1";
-        Input input = new Input(nome);
+        CreateCecaneInput input = new CreateCecaneInput(nome);
         //when
         var cecane = input.toAggregate();
         //then

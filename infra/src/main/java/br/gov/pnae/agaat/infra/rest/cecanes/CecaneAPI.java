@@ -1,6 +1,5 @@
 package br.gov.pnae.agaat.infra.rest.cecanes;
 
-import br.gov.pnae.agaat.application.cecanes.create.Input;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.CecaneApiOutput;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.CreateCecaneRequest;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.UpdateCecaneRequest;

@@ -2,7 +2,6 @@ package br.gov.pnae.agaat.application.cecanes.create;
 
 import br.gov.pnae.agaat.domain.cecanes.Cecane;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
-import br.gov.pnae.agaat.domain.commons.ids.Identifier;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +18,7 @@ class OutputTest {
         //given
         Long id = UUID.randomUUID().getMostSignificantBits();
         //when
-        Output output = new Output(id);
+        CreateCecaneOutput output = new CreateCecaneOutput(id);
         //then
         assertNotNull(output);
     }
@@ -33,7 +32,7 @@ class OutputTest {
         when(cecane.id()).thenReturn(cecaneId);
         when(cecaneId.value()).thenReturn(UUID.randomUUID().getMostSignificantBits());
 
-        Output output = Output.fromAggregate(cecane);
+        CreateCecaneOutput output = CreateCecaneOutput.fromAggregate(cecane);
         //then
         assertNotNull(output);
     }

@@ -1,14 +1,12 @@
 package br.gov.pnae.agaat.infra.rest.cecanes.controllers;
 
 import br.gov.pnae.agaat.application.cecanes.create.CreateCecaneUseCase;
-import br.gov.pnae.agaat.application.cecanes.create.Input;
-import br.gov.pnae.agaat.application.cecanes.create.Output;
+import br.gov.pnae.agaat.application.cecanes.create.CreateCecaneInput;
+import br.gov.pnae.agaat.application.cecanes.create.CreateCecaneOutput;
 import br.gov.pnae.agaat.application.cecanes.delete.DeleteCecaneUseCase;
 import br.gov.pnae.agaat.application.cecanes.retrieve.GetCecaneByIdUseCase;
 import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneCommand;
 import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneUseCase;
-import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
-import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
 import br.gov.pnae.agaat.domain.commons.validation.handler.Notification;
 import br.gov.pnae.agaat.infra.rest.cecanes.CecaneAPI;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.CecaneApiOutput;
@@ -42,11 +40,11 @@ public class CecaneController implements CecaneAPI {
 
     @Override
     public ResponseEntity<?> create(@RequestBody final CreateCecaneRequest input) {
-        final var command = new Input(input.name());
+        final var command = new CreateCecaneInput(input.name());
 
         final Function<Notification, ResponseEntity<?>> onError = notification ->
                 ResponseEntity.unprocessableEntity().body(notification);
-        final Function<Output, ResponseEntity<?>> onSuccess = output ->
+        final Function<CreateCecaneOutput, ResponseEntity<?>> onSuccess = output ->
                 ResponseEntity.created(URI.create("/cecanes/" + output.id())).body(output);
 
         return createCecaneUseCase.execute(command).fold(onError, onSuccess);
