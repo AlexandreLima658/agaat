@@ -1,4 +1,4 @@
-package br.gov.pnae.agaat.application.cecanes.retrieve;
+package br.gov.pnae.agaat.application.cecanes.retrieve.get;
 
 import br.gov.pnae.agaat.domain.cecanes.Cecane;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;

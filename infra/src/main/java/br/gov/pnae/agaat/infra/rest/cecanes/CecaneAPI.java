@@ -1,6 +1,7 @@
 package br.gov.pnae.agaat.infra.rest.cecanes;
 
 import br.gov.pnae.agaat.application.cecanes.create.Input;
+import br.gov.pnae.agaat.domain.pagination.Pagination;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.CecaneApiOutput;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.CreateCecaneRequest;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.UpdateCecaneRequest;
@@ -35,7 +36,19 @@ public interface CecaneAPI {
     })
 
     CecaneApiOutput getById(@PathVariable(name = "id") Long id);
-
+    @GetMapping
+    @Operation(summary = "Listar todas as Cecanes paginadas")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Listado com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Um parâmetro inválido foi recebido"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
+    })
+    Pagination<?> listCecanes(
+            @RequestParam(name = "search", required = false, defaultValue = "") final String search,
+            @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
+            @RequestParam(name = "perPage", required = false, defaultValue = "5") final int perPage,
+            @RequestParam(name = "sort", required = false, defaultValue = "name") final String sort
+    );
     @PutMapping(
             value = "{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
