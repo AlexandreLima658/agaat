@@ -56,16 +56,6 @@ public class CecaneController implements CecaneAPI {
                 ResponseEntity.created(URI.create("/cecanes/" + output.id())).body(output);
 
         return createCecaneUseCase.execute(command).fold(onError, onSuccess);
-        /*
-        try {
-            final var command = new Input(input.name());
-            final var output = createCecaneUseCase.execute(command);
-            final var uri = URI.create("/cecanes/" + output.id());
-
-            return ResponseEntity.created(uri).body(output);
-        } catch (final DomainException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }*/
     }
 
     @Override

@@ -8,33 +8,15 @@ import br.gov.pnae.agaat.domain.pagination.Pagination;
 import br.gov.pnae.agaat.domain.pagination.SearchQuery;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CecaneRepositoryInMemory implements CecaneRepository {
-
     private final Map<Long, Cecane> cecanes;
 
     public CecaneRepositoryInMemory() {
         this.cecanes = new HashMap<>();
-    }
-    public class CecaneNameComparator implements Comparator<Cecane> {
-        public int compare(Cecane str1, Cecane str2) {
-            if (str1 == str2) {
-                return 0;
-            }
-            if (str1 == null) {
-                return -1;
-            }
-            if (str2 == null) {
-                return 1;
-            }
-
-            return str1.nome().compareTo(str2.nome());
-        }
     }
 
     @Override
@@ -48,18 +30,20 @@ public class CecaneRepositoryInMemory implements CecaneRepository {
                 .filter(cecane -> cecane.nome().equals(nome))
                 .findFirst();
     }
+
     @Override
     public Pagination<Cecane> findAll(SearchQuery aQuery) {
-        final CecaneNameComparator cecaneNameComparator = new CecaneNameComparator();
-        final var cecanesList = cecanes.values().stream().toList().subList(aQuery.page(),aQuery.perPage());
-        cecanesList.sort(cecaneNameComparator);
+        final Comparator<Cecane> comparator = Comparator.comparing(Cecane::nome);
+        var cecanesList = new ArrayList<>(cecanes.values()).subList(aQuery.page(),aQuery.perPage());
+
+        cecanesList.sort(comparator);
+
         return new Pagination<>(
                 aQuery.page(),
                 aQuery.perPage(),
                 cecanes.size(),
                 cecanesList
         );
-
     }
     @Override
     public Cecane persist(Cecane cecane) {
