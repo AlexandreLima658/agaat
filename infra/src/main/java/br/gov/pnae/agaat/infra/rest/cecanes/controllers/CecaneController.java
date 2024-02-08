@@ -2,12 +2,14 @@ package br.gov.pnae.agaat.infra.rest.cecanes.controllers;
 
 import br.gov.pnae.agaat.application.cecanes.create.CreateCecaneUseCase;
 import br.gov.pnae.agaat.application.cecanes.create.Input;
+import br.gov.pnae.agaat.application.cecanes.create.Output;
 import br.gov.pnae.agaat.application.cecanes.delete.DeleteCecaneUseCase;
 import br.gov.pnae.agaat.application.cecanes.retrieve.GetCecaneByIdUseCase;
 import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneCommand;
 import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneUseCase;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
 import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
+import br.gov.pnae.agaat.domain.commons.validation.handler.Notification;
 import br.gov.pnae.agaat.infra.rest.cecanes.CecaneAPI;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.CecaneApiOutput;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.CreateCecaneRequest;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.util.Objects;
+import java.util.function.Function;
 
 @RestController
 public class CecaneController implements CecaneAPI {
@@ -39,6 +42,15 @@ public class CecaneController implements CecaneAPI {
 
     @Override
     public ResponseEntity<?> create(@RequestBody final CreateCecaneRequest input) {
+        final var command = new Input(input.name());
+
+        final Function<Notification, ResponseEntity<?>> onError = notification ->
+                ResponseEntity.unprocessableEntity().body(notification);
+        final Function<Output, ResponseEntity<?>> onSuccess = output ->
+                ResponseEntity.created(URI.create("/cecanes/" + output.id())).body(output);
+
+        return createCecaneUseCase.execute(command).fold(onError, onSuccess);
+        /*
         try {
             final var command = new Input(input.name());
             final var output = createCecaneUseCase.execute(command);
@@ -47,7 +59,7 @@ public class CecaneController implements CecaneAPI {
             return ResponseEntity.created(uri).body(output);
         } catch (final DomainException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        }*/
     }
 
     @Override
