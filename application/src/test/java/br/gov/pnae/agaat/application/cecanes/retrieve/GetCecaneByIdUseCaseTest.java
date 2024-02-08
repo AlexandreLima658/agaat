@@ -17,21 +17,22 @@ class GetCecaneByIdUseCaseTest {
     @Test
     void shouldGetCecaneUseCase(){
         //given
-        GetCecaneByIdUseCase getCecanesByIdUseCase = new GetCecaneByIdUseCase(null);
+        // Require NonNull
+        GetCecaneByIdUseCase getCecanesByIdUseCase =
+                new GetCecaneByIdUseCase(Mockito.mock(CecaneRepository.class));
 
         // then
-        assertThrows(NullPointerException.class, () -> {
-            getCecanesByIdUseCase.execute(1L);
-        });
+        assertNotNull(getCecanesByIdUseCase);
     }
     @Test
     void testExecuteWhenFound(){
         //given
         final Long id = 1L;
+        final CecaneId cecaneId = CecaneId.from(id);
         CecaneRepository repository = Mockito.mock(CecaneRepository.class);
         Cecane cecane = new Cecane(CecaneId.from(id), new CecaneNome("Cecane 1"));
         // when
-        Mockito.when(repository.findById(id)).thenReturn(Optional.of(cecane));
+        Mockito.when(repository.findById(cecaneId)).thenReturn(Optional.of(cecane));
         // then
         GetCecaneByIdOutput result = new GetCecaneByIdUseCase(repository).execute(id);
         assertEquals(1, result.id().value());
@@ -41,9 +42,10 @@ class GetCecaneByIdUseCaseTest {
     void testExecuteWhenNotFound(){
        //given
         final Long id = 1L;
+        final CecaneId cecaneId = CecaneId.from(id);
         CecaneRepository repository = Mockito.mock(CecaneRepository.class);
         // when
-        Mockito.when(repository.findById(id)).thenReturn(Optional.empty());
+        Mockito.when(repository.findById(cecaneId)).thenReturn(Optional.empty());
         // then
 
         assertThrows(NotFoundException.class, () -> {

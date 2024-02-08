@@ -22,4 +22,19 @@ class CecaneTest {
         assertEquals(cecaneId, cecane.id());
         assertEquals(nome, cecane.nome());
     }
+
+    @Test
+    void shouldUpdateCecane() {
+        // given
+        final var cecaneId = CecaneId.generate();
+        final var nome = "Cecane Nome";
+        final var cecane = new Cecane(cecaneId, new CecaneNome(nome));
+
+        // when
+        final var novoNome = "Novo Nome";
+        cecane.update(new CecaneNome(novoNome));
+
+        // then
+        assertEquals(novoNome, cecane.nome());
+    }
 }
