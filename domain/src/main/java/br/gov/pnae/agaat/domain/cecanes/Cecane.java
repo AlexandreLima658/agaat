@@ -8,7 +8,7 @@ import br.gov.pnae.agaat.domain.commons.validation.ValidationHandler;
 public class Cecane extends AggregateRoot<CecaneId> {
     public CecaneNome nome;
 
-    Cecane(final CecaneId cecaneId, final CecaneNome nome) {
+    public Cecane(final CecaneId cecaneId, final CecaneNome nome) {
         super(cecaneId);
         this.nome = nome;
     }
