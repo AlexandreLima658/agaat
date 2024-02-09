@@ -3,14 +3,14 @@ package br.gov.pnae.agaat.application.cecanes.create;
 import br.gov.pnae.agaat.application.UseCase;
 import br.gov.pnae.agaat.domain.cecanes.Cecane;
 import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
-import br.gov.pnae.agaat.domain.commons.validation.Either;
-import br.gov.pnae.agaat.domain.commons.validation.handler.Notification;
+import br.gov.pnae.agaat.domain.commons.Either;
+import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
 import jakarta.inject.Named;
 
 import java.util.Objects;
 
 @Named
-public class CreateCecaneUseCase extends UseCase<CreateCecaneInput, Either<Notification, CreateCecaneOutput>> {
+public class CreateCecaneUseCase extends UseCase<CreateCecaneInput, Either<DomainException, CreateCecaneOutput>> {
     private final CecaneRepository repository;
 
     public CreateCecaneUseCase(final CecaneRepository repository) {
@@ -18,16 +18,23 @@ public class CreateCecaneUseCase extends UseCase<CreateCecaneInput, Either<Notif
     }
 
     @Override
-    public Either<Notification, CreateCecaneOutput> execute(final CreateCecaneInput input) {
-        final var notification = Notification.create();
-        final var cecane = input.toAggregate();
+    public Either<DomainException, CreateCecaneOutput> execute(final CreateCecaneInput input) {
 
-        cecane.validate(notification);
+        try {
 
-        return notification.hasErrors() ? Either.left(notification) : create(cecane);
+            final var cecane = input.toAggregate();
+
+            this.repository.persist(cecane);
+
+            return Either.right(CreateCecaneOutput.fromAggregate(cecane));
+
+        } catch (final DomainException e) {
+            return Either.left(e);
+        }
+
     }
 
-    private Either<Notification, CreateCecaneOutput> create(final Cecane cecane) {
+    private Either<DomainException, CreateCecaneOutput> create(final Cecane cecane) {
         this.repository.persist(cecane);
 
         return Either.right(CreateCecaneOutput.fromAggregate(cecane));

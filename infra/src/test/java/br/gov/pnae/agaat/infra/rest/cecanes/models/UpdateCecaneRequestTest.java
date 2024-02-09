@@ -13,6 +13,6 @@ class UpdateCecaneRequestTest {
         //when
         UpdateCecaneRequest updateCecaneRequest = new UpdateCecaneRequest(name);
         //then
-        assertEquals(name, updateCecaneRequest.name());
+        assertEquals(name, updateCecaneRequest.nome());
     }
 }

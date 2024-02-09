@@ -8,7 +8,7 @@ import br.gov.pnae.agaat.application.cecanes.retrieve.get.GetCecaneByIdUseCase;
 import br.gov.pnae.agaat.application.cecanes.retrieve.list.ListCecanesUseCase;
 import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneCommand;
 import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneUseCase;
-import br.gov.pnae.agaat.domain.commons.validation.handler.Notification;
+import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
 import br.gov.pnae.agaat.domain.pagination.Pagination;
 import br.gov.pnae.agaat.domain.pagination.SearchQuery;
 import br.gov.pnae.agaat.infra.rest.cecanes.CecaneAPI;
@@ -48,12 +48,14 @@ public class CecaneController implements CecaneAPI {
 
     @Override
     public ResponseEntity<?> create(@RequestBody final CreateCecaneRequest input) {
+
         final var command = new CreateCecaneInput(input.name());
 
-        final Function<Notification, ResponseEntity<?>> onError = notification ->
-                ResponseEntity.unprocessableEntity().body(notification);
-        final Function<CreateCecaneOutput, ResponseEntity<?>> onSuccess = output ->
-                ResponseEntity.created(URI.create("/cecanes/" + output.id())).body(output);
+        final Function<DomainException, ResponseEntity<?>> onError =
+                error -> ResponseEntity.unprocessableEntity().body(error.errorInfo());
+
+        final Function<CreateCecaneOutput, ResponseEntity<?>> onSuccess =
+                output -> ResponseEntity.created(URI.create("/cecanes/" + output.id())).body(output);
 
         return createCecaneUseCase.execute(command).fold(onError, onSuccess);
     }
@@ -68,15 +70,27 @@ public class CecaneController implements CecaneAPI {
             final String search,
             final int page,
             final int perPage,
-            final String sort)
-    {
-        return listCecanesUseCase.execute(new SearchQuery(page, perPage, search, sort))
+            final String sort) {
+
+        final var query = new SearchQuery(
+                page,
+                perPage,
+                search,
+                sort
+        );
+
+        return listCecanesUseCase
+                .execute(query)
                 .map(CecaneApiPresenter::present);
     }
 
     @Override
     public ResponseEntity<?> update(final Long id, final UpdateCecaneRequest input) {
-        final var command = UpdateCecaneCommand.with(id, input.name());
+
+        final var command = UpdateCecaneCommand.with(
+                id,
+                input.nome()
+        );
 
         final var output = this.updateCecaneUseCase.execute(command);
 

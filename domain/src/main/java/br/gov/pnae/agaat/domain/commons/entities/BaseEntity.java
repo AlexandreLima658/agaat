@@ -1,7 +1,6 @@
 package br.gov.pnae.agaat.domain.commons.entities;
 
 import br.gov.pnae.agaat.domain.commons.ids.Identifier;
-import br.gov.pnae.agaat.domain.commons.validation.ValidationHandler;
 
 import java.util.Objects;
 
@@ -12,8 +11,6 @@ public abstract class BaseEntity<Id extends Identifier<?>> {
     protected BaseEntity(final Id id) {
         this.id = id;
     }
-
-    public abstract void validate(ValidationHandler handler);
 
     public Id id() {
         return id;

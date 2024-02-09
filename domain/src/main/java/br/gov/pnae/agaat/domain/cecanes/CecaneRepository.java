@@ -10,12 +10,11 @@ public interface CecaneRepository {
 
     Optional<Cecane> findById(final CecaneId id);
 
-    Optional<Cecane> findByNome(final String nome);
-
-    Cecane persist(final Cecane cecane);
+    void persist(final Cecane cecane);
 
     void update(final Cecane cecane);
 
     void deleteById(final CecaneId id);
+
     Pagination<Cecane> findAll(SearchQuery aQuery);
 }

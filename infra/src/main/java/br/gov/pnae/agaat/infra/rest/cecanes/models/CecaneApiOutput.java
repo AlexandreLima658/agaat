@@ -4,6 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record CecaneApiOutput(
         @JsonProperty("id") Long id,
-        @JsonProperty("name") String name) {
+        @JsonProperty("nome") String nome) {
 
 }

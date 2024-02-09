@@ -9,7 +9,6 @@ import br.gov.pnae.agaat.domain.pagination.SearchQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class CecaneRepositoryInMemory implements CecaneRepository {
@@ -25,18 +24,19 @@ public class CecaneRepositoryInMemory implements CecaneRepository {
     }
 
     @Override
-    public Optional<Cecane> findByNome(final String nome) {
-        return cecanes.values().stream()
-                .filter(cecane -> cecane.nome().equals(nome))
-                .findFirst();
-    }
+    public Pagination<Cecane> findAll(final SearchQuery aQuery) {
 
-    @Override
-    public Pagination<Cecane> findAll(SearchQuery aQuery) {
-        final Comparator<Cecane> comparator = Comparator.comparing(Cecane::nome);
-        var cecanesList = new ArrayList<>(cecanes.values()).subList(aQuery.page(),aQuery.perPage());
+        var cecanes = this.cecanes.values().stream()
+                .filter(cecane -> aQuery.terms() == null || cecane.nome().toLowerCase().contains(aQuery.terms().toLowerCase()))
+                .toList();
 
-        cecanesList.sort(comparator);
+        if (aQuery.sort() != null) {
+            if (aQuery.sort().equals("nome")) {
+                cecanes = cecanes.stream().sorted(Comparator.comparing(Cecane::nome)).toList();
+            }
+        }
+
+        var cecanesList = new ArrayList<>(cecanes).subList(aQuery.page(), aQuery.perPage());
 
         return new Pagination<>(
                 aQuery.page(),
@@ -45,10 +45,10 @@ public class CecaneRepositoryInMemory implements CecaneRepository {
                 cecanesList
         );
     }
+
     @Override
-    public Cecane persist(Cecane cecane) {
+    public void persist(final Cecane cecane) {
         cecanes.put(cecane.id().value(), cecane);
-        return cecane;
     }
 
     @Override
@@ -69,6 +69,8 @@ public class CecaneRepositoryInMemory implements CecaneRepository {
         cecanes.remove(id.value());
     }
 
-
+    public void deleteAll() {
+        cecanes.clear();
+    }
 
 }

@@ -1,4 +1,4 @@
-package br.gov.pnae.agaat.domain.commons.validation;
+package br.gov.pnae.agaat.domain.commons;
 
 import java.util.function.Function;
 
@@ -38,8 +38,9 @@ public class Either<L, R> {
     public final <U> U fold(Function<? super L, ? extends U> leftMapper, Function<? super R, ? extends U> rightMapper) {
         if (isRight()) {
             return rightMapper.apply(this.right);
-        } else {
-            return leftMapper.apply(this.left);
         }
+
+        return leftMapper.apply(this.left);
+
     }
 }

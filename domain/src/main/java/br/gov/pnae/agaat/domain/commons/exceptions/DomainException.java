@@ -1,34 +1,26 @@
 package br.gov.pnae.agaat.domain.commons.exceptions;
 
-import br.gov.pnae.agaat.domain.commons.validation.Error;
-
-import java.util.List;
-
 public class DomainException extends NoStackTraceException {
-    private List<Error> errors;
 
-    public DomainException(final String message) {
-        super(message);
+    private final ErrorInfo errorInfo;
+
+    public DomainException(final ErrorInfo errorInfo) {
+        super(errorInfo.message());
+        this.errorInfo = errorInfo;
     }
 
-    public DomainException(final String message, List<Error> errors) {
-        super(message);
-        this.errors = errors;
+    public static DomainException with(final ErrorInfo errorInfo) {
+        return new DomainException(errorInfo);
     }
 
-    public DomainException(final String message, final Throwable cause) {
-        super(message, cause);
+    public static DomainException with(final String message) {
+        return new DomainException(
+                new ErrorInfo(message)
+        );
     }
 
-    public static DomainException with(final Error error) {
-        return new DomainException(error.message(), List.of(error));
+    public ErrorInfo errorInfo() {
+        return errorInfo;
     }
 
-    public static DomainException with(final List<Error> error) {
-        return new DomainException("", error);
-    }
-
-    public List<Error> getErrors() {
-        return this.errors;
-    }
 }

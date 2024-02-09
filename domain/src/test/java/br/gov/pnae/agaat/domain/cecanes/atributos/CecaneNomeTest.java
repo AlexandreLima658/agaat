@@ -1,7 +1,7 @@
 package br.gov.pnae.agaat.domain.cecanes.atributos;
 
 import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
-import br.gov.pnae.agaat.domain.commons.validation.Either;
+import br.gov.pnae.agaat.domain.commons.Either;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -12,49 +12,53 @@ class CecaneNomeTest {
     @Test
     void shouldCreateCecaneNome() {
         // given
-        final var nome = "Cecane Nome";
+        final var nome = "Instituto Federal do Ceará - Campus Fortaleza";
 
         // when
         final var cecaneNome = new CecaneNome(nome);
 
         // then
-        assertDoesNotThrow(cecaneNome::validate);
+        assertEquals(nome, cecaneNome.value());
     }
 
     @Test
     void shouldNotCreateCecaneNomeWithNullValue() {
+
         // given
-        final String nome = null;
+        final var expectedMessage = "Nome do Cecane não pode ser nulo ou vazio";
+
         // when
-        final CecaneNome cecaneNome = new CecaneNome(nome);
+        final var anError = assertThrows(DomainException.class, () -> new CecaneNome(null));
 
         // then
-        assertThrows(DomainException.class, cecaneNome::validate);
-        assertNotNull(cecaneNome);
+        assertEquals(expectedMessage, anError.getMessage());
     }
 
     @Test
     void shouldNotCreateCecaneNomeWithBlankValue() {
         // given
-       final String blankName = "  ";
+        final var blankName = "  ";
+        final var expectedMessage = "Nome do Cecane não pode ser nulo ou vazio";
 
-       // when
-        final CecaneNome cecaneNome = new CecaneNome(blankName);
+        // when
+        final var anError = assertThrows(DomainException.class, () -> new CecaneNome(blankName));
 
         // then
-        assertThrows(DomainException.class, cecaneNome::validate);
-        assertNotNull(cecaneNome);
+        assertEquals(expectedMessage, anError.getMessage());
+
     }
 
     @Test
     void shouldNotCreateCecaneNomeWithValueMoreThan255Characters() {
         // given
         final var nome = "C".repeat(CecaneNome.CECANE_NOME_MAX_LENGTH + 1);
+        final var expectedMessage = "Nome do Cecane não pode ter mais de 255 caracteres";
+
         // when
 
-        final CecaneNome cecaneNome = new CecaneNome(nome);
+        final var anError = assertThrows(DomainException.class, () -> new CecaneNome(nome));
 
         // then
-        assertThrows(DomainException.class, cecaneNome::validate);
+        assertEquals(expectedMessage, anError.getMessage());
     }
 }

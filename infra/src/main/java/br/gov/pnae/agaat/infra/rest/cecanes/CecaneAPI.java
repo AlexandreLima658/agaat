@@ -26,15 +26,15 @@ public interface CecaneAPI {
     })
     ResponseEntity<?> create(@RequestBody CreateCecaneRequest input);
 
-    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Obter uma Cecane pelo seu identificador")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cecane recuperada com sucesso"),
             @ApiResponse(responseCode = "404", description = "Cecane não foi encontrado"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
     })
-
     CecaneApiOutput getById(@PathVariable(name = "id") Long id);
+
     @GetMapping
     @Operation(summary = "Listar todas as Cecanes paginadas")
     @ApiResponses(value = {
@@ -46,8 +46,9 @@ public interface CecaneAPI {
             @RequestParam(name = "search", required = false, defaultValue = "") final String search,
             @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
             @RequestParam(name = "perPage", required = false, defaultValue = "5") final int perPage,
-            @RequestParam(name = "sort", required = false, defaultValue = "name") final String sort
+            @RequestParam(name = "sort", required = false, defaultValue = "") final String sort
     );
+
     @PutMapping(
             value = "{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -60,12 +61,10 @@ public interface CecaneAPI {
             @ApiResponse(responseCode = "422", description = "A validação falhou"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
     })
-    ResponseEntity<?> update(@PathVariable(name = "id") Long id , @RequestBody UpdateCecaneRequest input);
+    ResponseEntity<?> update(@PathVariable(name = "id") Long id, @RequestBody UpdateCecaneRequest input);
 
     @DeleteMapping(
-            value = "{id}",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+            value = "{id}"
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Deletar uma Cecane pelo seu identificador")
