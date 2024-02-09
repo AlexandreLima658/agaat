@@ -14,13 +14,11 @@ class BaseEntityTest {
         final var expectedIdValue = 1L;
 
         // when
-        final var baseEntity = new BaseEntity<Identifier<Long>>(new Identifier<Long>(expectedIdValue) {
-        }) {
-
-        };
+        final var baseEntity = new BaseEntity<Identifier<Long>>(new Identifier<Long>(expectedIdValue) {}) {};
 
         // then
         assertNotNull(baseEntity);
+        assertEquals(baseEntity, baseEntity);
         assertEquals(expectedIdValue, baseEntity.id().value());
     }
 
@@ -30,32 +28,42 @@ class BaseEntityTest {
         final var expectedIdValue = 1L;
 
         // when
-        final var baseEntity = new BaseEntity<Identifier<Long>>(new Identifier<Long>(expectedIdValue) {
-        }) {
-
-        };
+        final var baseEntity = new BaseEntity<Identifier<Long>>(new Identifier<Long>(expectedIdValue) {}) {};
 
         // then
         assertNotNull(baseEntity);
         assertEquals(expectedIdValue, baseEntity.id().value());
+        assertFalse(baseEntity.equals(null));
+        assertFalse(baseEntity.equals(new Object()));
         assertNotEquals(baseEntity, new Object());
     }
 
     @Test
     void shouldCreateBaseEntityAndCompareHashCode() {
         // when
-        final var firstBaseEntity = new BaseEntity<Identifier<Long>>(new Identifier<Long>(1L) {
-        }) {
-
-        };
-        final var secondBaseEntity = new BaseEntity<Identifier<Long>>(new Identifier<Long>(1L) {
-        }) {
-
-        };
+        final var firstBaseEntity = new BaseEntity<Identifier<Long>>(new Identifier<Long>(1L) {}) {};
+        final var secondBaseEntity = new BaseEntity<Identifier<Long>>(new Identifier<Long>(1L) {}) {};
 
         // then
         assertNotNull(firstBaseEntity);
         assertNotNull(secondBaseEntity);
         assertEquals(firstBaseEntity.hashCode(), secondBaseEntity.hashCode());
+    }
+
+    @Test
+    void shouldCreateBaseEntityAndCompareIdentifiers() {
+        class BaseEntityClass extends BaseEntity<Identifier<Long>> {
+            protected BaseEntityClass(Identifier<Long> value) {
+                super(value);
+            }
+        }
+        // when
+        final var firstBaseEntity = new BaseEntityClass(new Identifier<Long>(1L) {});
+        final var secondBaseEntity = new BaseEntityClass(new Identifier<Long>(2L) {});
+
+        // then
+        assertNotNull(firstBaseEntity);
+        assertNotNull(secondBaseEntity);
+        assertFalse(firstBaseEntity.equals(secondBaseEntity));
     }
 }
