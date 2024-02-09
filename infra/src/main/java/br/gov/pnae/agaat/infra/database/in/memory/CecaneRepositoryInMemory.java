@@ -25,15 +25,12 @@ public class CecaneRepositoryInMemory implements CecaneRepository {
 
     @Override
     public Pagination<Cecane> findAll(final SearchQuery aQuery) {
-
         var cecanes = this.cecanes.values().stream()
-                .filter(cecane -> aQuery.terms() == null || cecane.nome().toLowerCase().contains(aQuery.terms().toLowerCase()))
+                .filter(cecane -> cecane.nome().toLowerCase().contains(aQuery.terms().toLowerCase()))
                 .toList();
 
-        if (aQuery.sort() != null) {
-            if (aQuery.sort().equals("nome")) {
-                cecanes = cecanes.stream().sorted(Comparator.comparing(Cecane::nome)).toList();
-            }
+        if (aQuery.sort().equals("nome")) {
+            cecanes = cecanes.stream().sorted(Comparator.comparing(Cecane::nome)).toList();
         }
 
         var cecanesList = new ArrayList<>(cecanes).subList(aQuery.page(), aQuery.perPage());
@@ -55,18 +52,13 @@ public class CecaneRepositoryInMemory implements CecaneRepository {
     public void update(final Cecane cecane) {
         final var cecaneId = cecane.id();
 
-        final var persistedCecane = this.findById(cecaneId)
-                .orElseThrow(() -> NotFoundException.with(Cecane.class, cecaneId));
-
         cecanes.put(cecaneId.value(), cecane);
     }
 
     @Override
     public void deleteById(final CecaneId id) {
-        final var persistedCecane = this.findById(id)
-                .orElseThrow(() -> NotFoundException.with(Cecane.class, id));
-
-        cecanes.remove(id.value());
+        if (cecanes.get(id.value()) != null)
+          cecanes.remove(id.value());
     }
 
     public void deleteAll() {

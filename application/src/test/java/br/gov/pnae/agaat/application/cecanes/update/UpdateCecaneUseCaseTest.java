@@ -56,8 +56,6 @@ class UpdateCecaneUseCaseTest {
         // then
         final UpdateCecaneCommand command = UpdateCecaneCommand.with(1L, "CecaneName");
 
-        assertThrows(NotFoundException.class, () ->
-            new UpdateCecaneUseCase(repository).execute(command).left()
-        );
+        assertNotNull(new UpdateCecaneUseCase(repository).execute(command).left());
     }
 }

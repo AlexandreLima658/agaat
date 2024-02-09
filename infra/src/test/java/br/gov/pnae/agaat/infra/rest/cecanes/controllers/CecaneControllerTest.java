@@ -114,7 +114,7 @@ class CecaneControllerTest {
     }
 
     @Test
-    public void ShouldGetPaginatedCecanes() throws Exception {
+    public void ShouldGetPaginatedCecanesSortByNome() throws Exception {
 
         // given
         final var nomes = new String[]{"UFC Russas", "UFC Quixadá", "UFC Fortaleza", "UFC Sobral", "UFC Crateús"};
@@ -144,6 +144,88 @@ class CecaneControllerTest {
         Assertions.assertEquals("UFC Fortaleza", actualResponse.items().get(1).nome());
 
     }
+
+    @Test
+    public void ShouldGetPaginatedCecanesByTerm() throws Exception {
+
+        // given
+        final var nomes = new String[]{"IFCE Morada Nova", "IFCE Fortaleza", "IFCE Cedro", "IFCE Aracati", "UFC Russas", "UFC Quixadá", "UFC Fortaleza", "UFC Sobral", "UFC Crateús"};
+
+        for (String nome : nomes) {
+            final var cecane = CecaneFactory.create(new CecaneNome(nome));
+            repository.persist(cecane);
+        }
+
+        // when
+        final var result = this.mvc.perform(
+                        MockMvcRequestBuilders.get("/cecanes?page=0&perPage=2&term=IFCE&sort=nome")
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsByteArray();
+
+        // then
+        final var actualResponse = mapper.readValue(result, new TypeReference<Pagination<CecaneListResponse>>() {
+        });
+        Assertions.assertNotNull(actualResponse);
+        Assertions.assertEquals(2, actualResponse.items().size());
+        Assertions.assertEquals(9, actualResponse.total());
+        Assertions.assertEquals(0, actualResponse.currentPage());
+        Assertions.assertEquals(2, actualResponse.perPage());
+
+        Assertions.assertEquals("IFCE Aracati", actualResponse.items().getFirst().nome());
+        Assertions.assertEquals("IFCE Cedro", actualResponse.items().get(1).nome());
+
+    }
+
+    @Test
+    public void ShouldGetPaginatedCecanesSortByEmptyTerm() throws Exception {
+
+        // given
+        final var nomes = new String[]{"UFC Russas", "UFC Quixadá", "UFC Fortaleza", "UFC Sobral", "UFC Crateús"};
+
+        for (String nome : nomes) {
+            final var cecane = CecaneFactory.create(new CecaneNome(nome));
+            repository.persist(cecane);
+        }
+
+        // when
+        final var result = this.mvc.perform(
+                        MockMvcRequestBuilders.get("/cecanes")
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsByteArray();
+
+        // then
+        final var actualResponse = mapper.readValue(result, new TypeReference<Pagination<CecaneListResponse>>() {
+        });
+        Assertions.assertNotNull(actualResponse);
+    }
+
+
+    @Test
+    public void ShouldGetPaginatedCecanesSortByInvalidTerm() throws Exception {
+
+        // given
+        final var nomes = new String[]{"UFC Russas", "UFC Quixadá", "UFC Fortaleza", "UFC Sobral", "UFC Crateús"};
+
+        for (String nome : nomes) {
+            final var cecane = CecaneFactory.create(new CecaneNome(nome));
+            repository.persist(cecane);
+        }
+
+        // when
+        final var result = this.mvc.perform(
+                        MockMvcRequestBuilders.get("/cecanes?page=0&perPage=2&term=1&sort=nome")
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsByteArray();
+
+        // then
+        final var actualResponse = mapper.readValue(result, new TypeReference<Pagination<CecaneListResponse>>() {
+        });
+        Assertions.assertNotNull(actualResponse);
+    }
+
 
     @Test
     public void ShouldUpdateCecaneById() throws Exception {
@@ -216,4 +298,18 @@ class CecaneControllerTest {
 
     }
 
+    @Test
+    public void ShouldDeleteCecaneInvalidId() throws Exception {
+
+        // given
+        final var cecaneId = CecaneId.from(100L);
+
+        // when
+        this.mvc.perform(
+                        MockMvcRequestBuilders.delete("/cecanes/{id}", cecaneId.value())
+                )
+                .andExpect(MockMvcResultMatchers.status().isNoContent())
+                .andReturn();
+
+    }
 }

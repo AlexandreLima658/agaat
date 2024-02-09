@@ -10,6 +10,7 @@ import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneCommand;
 import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneOutput;
 import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneUseCase;
 import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
+import br.gov.pnae.agaat.domain.commons.exceptions.NotFoundException;
 import br.gov.pnae.agaat.domain.pagination.Pagination;
 import br.gov.pnae.agaat.domain.pagination.SearchQuery;
 import br.gov.pnae.agaat.infra.rest.cecanes.CecaneAPI;
