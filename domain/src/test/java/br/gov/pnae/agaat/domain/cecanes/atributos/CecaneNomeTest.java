@@ -1,6 +1,7 @@
 package br.gov.pnae.agaat.domain.cecanes.atributos;
 
 import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
+import br.gov.pnae.agaat.domain.commons.validation.Either;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -17,46 +18,43 @@ class CecaneNomeTest {
         final var cecaneNome = new CecaneNome(nome);
 
         // then
-        assertNotNull(cecaneNome);
-        assertEquals(nome, cecaneNome.value());
+        assertDoesNotThrow(cecaneNome::validate);
     }
 
     @Test
     void shouldNotCreateCecaneNomeWithNullValue() {
         // given
         final String nome = null;
-        final var exceptionMessage = "Nome do Cecane não pode ser nulo ou vazio";
-
         // when
-        final var exception = assertThrows(DomainException.class, () -> new CecaneNome(nome));
+        final CecaneNome cecaneNome = new CecaneNome(nome);
 
         // then
-        assertEquals(exceptionMessage, exception.getMessage());
+        assertThrows(DomainException.class, cecaneNome::validate);
+        assertNotNull(cecaneNome);
     }
 
     @Test
     void shouldNotCreateCecaneNomeWithBlankValue() {
         // given
-        final var nome = "";
-        final var exceptionMessage = "Nome do Cecane não pode ser nulo ou vazio";
+       final String blankName = "  ";
 
-        // when
-        final var exception = assertThrows(DomainException.class, () -> new CecaneNome(nome));
+       // when
+        final CecaneNome cecaneNome = new CecaneNome(blankName);
 
         // then
-        assertEquals(exceptionMessage, exception.getMessage());
+        assertThrows(DomainException.class, cecaneNome::validate);
+        assertNotNull(cecaneNome);
     }
 
     @Test
     void shouldNotCreateCecaneNomeWithValueMoreThan255Characters() {
         // given
-        final var nome = "Cecane Nome".repeat(51);
-        final var exceptionMessage = "Nome do Cecane não pode ter mais de 255 caracteres";
-
+        final var nome = "C".repeat(CecaneNome.CECANE_NOME_MAX_LENGTH + 1);
         // when
-        final var exception = assertThrows(DomainException.class, () -> new CecaneNome(nome));
+
+        final CecaneNome cecaneNome = new CecaneNome(nome);
 
         // then
-        assertEquals(exceptionMessage, exception.getMessage());
+        assertThrows(DomainException.class, cecaneNome::validate);
     }
 }
