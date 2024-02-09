@@ -7,6 +7,7 @@ import br.gov.pnae.agaat.application.cecanes.delete.DeleteCecaneUseCase;
 import br.gov.pnae.agaat.application.cecanes.retrieve.get.GetCecaneByIdUseCase;
 import br.gov.pnae.agaat.application.cecanes.retrieve.list.ListCecanesUseCase;
 import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneCommand;
+import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneOutput;
 import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneUseCase;
 import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
 import br.gov.pnae.agaat.domain.pagination.Pagination;
@@ -92,9 +93,13 @@ public class CecaneController implements CecaneAPI {
                 input.nome()
         );
 
-        final var output = this.updateCecaneUseCase.execute(command);
+        final Function<DomainException, ResponseEntity<?>> onError =
+                error -> ResponseEntity.unprocessableEntity().body(error.errorInfo());
 
-        return ResponseEntity.ok().body(output);
+        final Function<UpdateCecaneOutput, ResponseEntity<?>> onSuccess =
+                output -> ResponseEntity.ok().body(output);
+
+        return this.updateCecaneUseCase.execute(command).fold(onError, onSuccess);
     }
 
     @Override

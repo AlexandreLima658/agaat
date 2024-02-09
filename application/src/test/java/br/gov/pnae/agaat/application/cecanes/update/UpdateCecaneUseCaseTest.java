@@ -41,7 +41,7 @@ class UpdateCecaneUseCaseTest {
         Mockito.when(cecaneRepository.findById(CecaneId.from(1L))).thenReturn(java.util.Optional.of(cecane));
 
         //then
-        assertNotNull(updateCecaneUseCase.execute(UpdateCecaneCommand.with(1L, "CecaneName")));
+        assertNotNull(updateCecaneUseCase.execute(UpdateCecaneCommand.with(1L, "CecaneName")).right());
 
     }
 
@@ -56,8 +56,8 @@ class UpdateCecaneUseCaseTest {
         // then
         final UpdateCecaneCommand command = UpdateCecaneCommand.with(1L, "CecaneName");
 
-        assertThrows(NotFoundException.class, () -> {
-            new UpdateCecaneUseCase(repository).execute(command);
-        });
+        assertThrows(NotFoundException.class, () ->
+            new UpdateCecaneUseCase(repository).execute(command).left()
+        );
     }
 }

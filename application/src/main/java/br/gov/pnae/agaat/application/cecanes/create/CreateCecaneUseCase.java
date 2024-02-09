@@ -33,10 +33,4 @@ public class CreateCecaneUseCase extends UseCase<CreateCecaneInput, Either<Domai
         }
 
     }
-
-    private Either<DomainException, CreateCecaneOutput> create(final Cecane cecane) {
-        this.repository.persist(cecane);
-
-        return Either.right(CreateCecaneOutput.fromAggregate(cecane));
-    }
 }

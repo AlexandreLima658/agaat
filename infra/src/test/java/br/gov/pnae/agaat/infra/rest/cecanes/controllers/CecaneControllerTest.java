@@ -4,6 +4,7 @@ import br.gov.pnae.agaat.application.cecanes.create.CreateCecaneOutput;
 import br.gov.pnae.agaat.application.cecanes.retrieve.get.GetCecaneByIdOutput;
 import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneOutput;
 import br.gov.pnae.agaat.domain.cecanes.CecaneFactory;
+import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneNome;
 import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
 import br.gov.pnae.agaat.domain.commons.exceptions.ErrorInfo;
@@ -170,6 +171,29 @@ class CecaneControllerTest {
         Assertions.assertNotNull(actualResponse.id());
         Assertions.assertEquals(cecane.nome(), actualResponse.nome());
 
+    }
+
+    @Test
+    public void test1() throws Exception {
+
+        // given
+        final var cecaneId = CecaneId.from(100L);
+
+        //given
+        final var input = new UpdateCecaneRequest("UFC Russas - Campus Russas");
+
+        // when
+        final var result = this.mvc.perform(
+                        MockMvcRequestBuilders.put("/cecanes/{id}", cecaneId.value())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(mapper.writeValueAsString(input))
+                )
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
+                .andReturn().getResponse().getContentAsByteArray();
+
+        // then
+        final var actualResponse = mapper.readValue(result, UpdateCecaneOutput.class);
+        Assertions.assertNotNull(actualResponse);
     }
 
     @Test
