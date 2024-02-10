@@ -1,11 +1,11 @@
 package br.gov.pnae.agaat.domain.cecanes.atributos;
 
 import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
-import br.gov.pnae.agaat.domain.commons.Either;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Tag("unitTest")
 class CecaneNomeTest {

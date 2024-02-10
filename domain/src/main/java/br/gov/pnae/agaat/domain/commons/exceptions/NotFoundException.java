@@ -3,9 +3,6 @@ package br.gov.pnae.agaat.domain.commons.exceptions;
 import br.gov.pnae.agaat.domain.commons.entities.AggregateRoot;
 import br.gov.pnae.agaat.domain.commons.ids.Identifier;
 
-import java.util.Collections;
-import java.util.List;
-
 public class NotFoundException extends DomainException {
     public NotFoundException(final ErrorInfo errorInfo) {
         super(errorInfo);

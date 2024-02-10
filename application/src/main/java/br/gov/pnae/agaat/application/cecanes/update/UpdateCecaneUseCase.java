@@ -11,7 +11,6 @@ import br.gov.pnae.agaat.domain.commons.exceptions.NotFoundException;
 import jakarta.inject.Named;
 
 import java.util.Objects;
-import java.util.function.Supplier;
 
 @Named
 public class UpdateCecaneUseCase extends UseCase<UpdateCecaneCommand, Either<DomainException, UpdateCecaneOutput>> {

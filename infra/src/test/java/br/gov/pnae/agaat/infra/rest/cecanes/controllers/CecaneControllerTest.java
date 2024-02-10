@@ -6,7 +6,6 @@ import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneOutput;
 import br.gov.pnae.agaat.domain.cecanes.CecaneFactory;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneNome;
-import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
 import br.gov.pnae.agaat.domain.commons.exceptions.ErrorInfo;
 import br.gov.pnae.agaat.domain.pagination.Pagination;
 import br.gov.pnae.agaat.infra.database.in.memory.CecaneRepositoryInMemory;

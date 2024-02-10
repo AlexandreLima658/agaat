@@ -1,8 +1,8 @@
 package br.gov.pnae.agaat.infra.rest.cecanes.controllers;
 
-import br.gov.pnae.agaat.application.cecanes.create.CreateCecaneUseCase;
 import br.gov.pnae.agaat.application.cecanes.create.CreateCecaneInput;
 import br.gov.pnae.agaat.application.cecanes.create.CreateCecaneOutput;
+import br.gov.pnae.agaat.application.cecanes.create.CreateCecaneUseCase;
 import br.gov.pnae.agaat.application.cecanes.delete.DeleteCecaneUseCase;
 import br.gov.pnae.agaat.application.cecanes.retrieve.get.GetCecaneByIdUseCase;
 import br.gov.pnae.agaat.application.cecanes.retrieve.list.ListCecanesUseCase;
@@ -10,14 +10,13 @@ import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneCommand;
 import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneOutput;
 import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneUseCase;
 import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
-import br.gov.pnae.agaat.domain.commons.exceptions.NotFoundException;
 import br.gov.pnae.agaat.domain.pagination.Pagination;
 import br.gov.pnae.agaat.domain.pagination.SearchQuery;
 import br.gov.pnae.agaat.infra.rest.cecanes.CecaneAPI;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.CecaneApiOutput;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.CreateCecaneRequest;
-import br.gov.pnae.agaat.infra.rest.cecanes.presenters.CecaneApiPresenter;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.UpdateCecaneRequest;
+import br.gov.pnae.agaat.infra.rest.cecanes.presenters.CecaneApiPresenter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

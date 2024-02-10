@@ -3,7 +3,6 @@ package br.gov.pnae.agaat.infra.database.in.memory;
 import br.gov.pnae.agaat.domain.cecanes.Cecane;
 import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
-import br.gov.pnae.agaat.domain.commons.exceptions.NotFoundException;
 import br.gov.pnae.agaat.domain.pagination.Pagination;
 import br.gov.pnae.agaat.domain.pagination.SearchQuery;
 import org.springframework.stereotype.Service;
