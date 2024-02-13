@@ -4,14 +4,21 @@ import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneNome;
 
 public interface CecaneFactory {
-    static Cecane create(final CecaneId id, final CecaneNome nome) {
-        return new Cecane(id, nome);
+    static Cecane create(final CecaneId id, final String nome) {
+        return new Cecane(
+                id,
+                new CecaneNome(nome)
+        );
     }
 
-    static Cecane create(final CecaneNome nome) {
-        final var id = CecaneId.generate();
+    static Cecane create(final String nome) {
 
-        return new Cecane(id, nome);
+        final var cecaneId = CecaneId.generate();
+
+        return new Cecane(
+                cecaneId,
+                new CecaneNome(nome)
+        );
     }
 
 }

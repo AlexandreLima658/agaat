@@ -4,8 +4,6 @@ import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import static org.junit.jupiter.api.Assertions.*;
 @Tag("unitTest")
 class DeleteCecaneUseCaseTest {
     @Test

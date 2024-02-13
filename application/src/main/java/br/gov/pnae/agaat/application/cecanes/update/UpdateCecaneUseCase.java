@@ -5,15 +5,13 @@ import br.gov.pnae.agaat.domain.cecanes.Cecane;
 import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneNome;
-import br.gov.pnae.agaat.domain.commons.Either;
-import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
 import br.gov.pnae.agaat.domain.commons.exceptions.NotFoundException;
 import jakarta.inject.Named;
 
 import java.util.Objects;
 
 @Named
-public class UpdateCecaneUseCase extends UseCase<UpdateCecaneCommand, Either<DomainException, UpdateCecaneOutput>> {
+public class UpdateCecaneUseCase extends UseCase<UpdateCecaneInput, UpdateCecaneOutput> {
     private final CecaneRepository repository;
 
     public UpdateCecaneUseCase(CecaneRepository repository) {
@@ -21,19 +19,17 @@ public class UpdateCecaneUseCase extends UseCase<UpdateCecaneCommand, Either<Dom
     }
 
     @Override
-    public Either<DomainException, UpdateCecaneOutput> execute(final UpdateCecaneCommand command) {
-        try {
-            final var id = CecaneId.from(command.id());
-            final var name = new CecaneNome(command.name());
+    public UpdateCecaneOutput execute(final UpdateCecaneInput input) {
 
-            final var cecane = this.repository.findById(id).orElseThrow(() -> NotFoundException.with(Cecane.class, id));
-            cecane.update(new CecaneNome(cecane.nome()));
+        final var id = CecaneId.from(input.id());
+        final var name = new CecaneNome(input.name());
 
-            this.repository.update(cecane);
+        final var cecane = this.repository.findById(id).orElseThrow(() -> NotFoundException.with(Cecane.class, id));
+        cecane.update(name);
 
-            return Either.right(UpdateCecaneOutput.fromAggregate(cecane));
-        } catch (final NotFoundException ex) {
-            return Either.left(ex);
-        }
+        this.repository.update(cecane);
+
+        return UpdateCecaneOutput.fromAggregate(cecane);
+
     }
 }

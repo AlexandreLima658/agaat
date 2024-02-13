@@ -8,13 +8,15 @@ public class Cecane extends AggregateRoot<CecaneId> {
 
     CecaneNome nome;
 
-    public Cecane(final CecaneId cecaneId, final CecaneNome nome) {
+    Cecane(final CecaneId cecaneId, final CecaneNome nome) {
         super(cecaneId);
         this.nome = nome;
     }
 
-    public void update(CecaneNome nome) {
+    public void update(final CecaneNome nome) {
+
         this.nome = nome;
+
     }
 
     public String nome() {

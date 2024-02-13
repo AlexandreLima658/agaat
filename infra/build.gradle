@@ -17,6 +17,10 @@ plugins {
 
 group = 'br.gov.pnae.agaat.infra'
 
+bootJar {
+    archiveFileName.set("${rootDir}/build/libs/${project.name}-fat.jar")
+}
+
 dependencies {
 
     implementation project(":domain")

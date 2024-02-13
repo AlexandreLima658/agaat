@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class ApplicationTests {
     @Test
     public void testMain() {
-        Assertions.assertNotNull(new Application());
         Application.main(new String[]{});
     }
 }

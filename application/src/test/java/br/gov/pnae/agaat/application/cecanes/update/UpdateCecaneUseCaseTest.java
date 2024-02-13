@@ -1,61 +1,82 @@
 package br.gov.pnae.agaat.application.cecanes.update;
 
-import br.gov.pnae.agaat.domain.cecanes.Cecane;
+import br.gov.pnae.agaat.domain.cecanes.CecaneFactory;
 import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
-import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneNome;
 import br.gov.pnae.agaat.domain.commons.exceptions.NotFoundException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.*;
 
 @Tag("unitTest")
 class UpdateCecaneUseCaseTest {
     @Test
-    void shouldUpdateCecaneUseCase(){
-        //given
-        // Require NonNull
-        UpdateCecaneUseCase updateCecaneUseCase =
-                new UpdateCecaneUseCase(mock(CecaneRepository.class));
+    @DisplayName("Deve atualizar e persistir um Cecane")
+    void shouldUpdateCecaneUseCase() {
 
-        // then
-        assertNotNull(updateCecaneUseCase);
-    }
-    @Test
-    void shouldUpdateCecaneOutputExecute(){
-        //given
-        CecaneRepository cecaneRepository = mock(CecaneRepository.class);
-        final CecaneNome CecaneName = new CecaneNome("CecaneName");
+        // given
+        final var repository = mock(CecaneRepository.class);
+        final var cecane = CecaneFactory.create(
+                "IFCE - Campus Acaraú"
+        );
 
-        // Require NonNull
-        UpdateCecaneUseCase updateCecaneUseCase =
-                new UpdateCecaneUseCase(cecaneRepository);
+        final var novoNome = "IFCE - Campus Fortaleza";
+        final var updateCecaneUseCase = new UpdateCecaneUseCase(repository);
 
-        //when
-        Cecane cecane = new Cecane(CecaneId.from(1L), CecaneName);
-        Mockito.when(cecaneRepository.findById(CecaneId.from(1L))).thenReturn(java.util.Optional.of(cecane));
+        Mockito.when(
+                repository.findById(cecane.id())
+        ).thenReturn(Optional.of(cecane));
 
-        //then
-        assertNotNull(updateCecaneUseCase.execute(UpdateCecaneCommand.with(1L, "CecaneName")).right());
+        final var input = new UpdateCecaneInput(
+                cecane.id().value(),
+                novoNome
+        );
 
-    }
-
-    @Test
-    void testExecuteWhenNotFound() {
-        //given
-        final Long id = 1L;
-        final CecaneId cecaneId = CecaneId.from(id);
-        CecaneRepository repository = Mockito.mock(CecaneRepository.class);
         // when
-        Mockito.when(repository.findById(cecaneId)).thenReturn(Optional.empty());
-        // then
-        final UpdateCecaneCommand command = UpdateCecaneCommand.with(1L, "CecaneName");
+        final var result = updateCecaneUseCase.execute(input);
 
-        assertNotNull(new UpdateCecaneUseCase(repository).execute(command).left());
+        // then
+        assertNotNull(result);
+        assertEquals(novoNome, result.nome());
+        verify(repository, times(1)).update(cecane);
+
     }
+
+    @Test
+    @DisplayName("Deve lançar exceção quando não encontrar um Cecane")
+    void shouldThrowExceptionWhenNotFound() {
+
+        // given
+        final var repository = mock(CecaneRepository.class);
+        final var updateCecaneUseCase = new UpdateCecaneUseCase(repository);
+
+        final var id = CecaneId.generate();
+        final var input = new UpdateCecaneInput(
+                id.value(),
+                "IFCE - Campus Fortaleza"
+        );
+
+        final var expectedMessage = "Cecane com ID %s não encontrado".formatted(id.value());
+
+        Mockito.when(
+                repository.findById(id)
+        ).thenReturn(Optional.empty());
+
+        // when
+        final var notFoundException = Assertions.assertThrows(NotFoundException.class, () -> updateCecaneUseCase.execute(input));
+
+        // then
+        assertNotNull(notFoundException);
+        assertEquals(expectedMessage, notFoundException.getMessage());
+
+    }
+
 }

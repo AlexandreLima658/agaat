@@ -1,5 +1,6 @@
 package br.gov.pnae.agaat.domain.cecanes.atributos;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @Tag("unitTest")
 class CecaneIdTest {
     @Test
+    @DisplayName("Deve criar um CecaneId a partir de um valor")
     void shouldCreateCecaneIdFromValue() {
         // given
         final var expectedId = 1L;
@@ -22,6 +24,7 @@ class CecaneIdTest {
     }
 
     @Test
+    @DisplayName("Deve gerar um CecaneId")
     void shouldGenerateCecaneId() {
         // given
 
@@ -31,4 +34,5 @@ class CecaneIdTest {
         // then
         assertNotNull(cecaneId);
     }
+
 }
