@@ -2,8 +2,10 @@ package br.gov.pnae.agaat.application.cecanes.retrieve.by.filter;
 
 import br.gov.pnae.agaat.domain.cecanes.Cecane;
 
+import java.util.UUID;
+
 public record RetrieveCecanesByFilterOutput(
-        Long id,
+        UUID id,
         String nome
 ) {
     public static RetrieveCecanesByFilterOutput fromAggregate(final Cecane cecane) {

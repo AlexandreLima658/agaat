@@ -25,6 +25,7 @@ public class UpdateCecaneUseCase extends UseCase<UpdateCecaneInput, UpdateCecane
         final var name = new CecaneNome(input.name());
 
         final var cecane = this.repository.findById(id).orElseThrow(() -> NotFoundException.with(Cecane.class, id));
+
         cecane.update(name);
 
         this.repository.update(cecane);

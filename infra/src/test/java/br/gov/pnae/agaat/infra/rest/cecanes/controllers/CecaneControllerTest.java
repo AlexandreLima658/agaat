@@ -2,10 +2,10 @@ package br.gov.pnae.agaat.infra.rest.cecanes.controllers;
 
 import br.gov.pnae.agaat.application.cecanes.create.CreateCecaneInput;
 import br.gov.pnae.agaat.domain.cecanes.CecaneFactory;
+import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
 import br.gov.pnae.agaat.domain.commons.exceptions.ErrorInfo;
 import br.gov.pnae.agaat.domain.pagination.Pagination;
-import br.gov.pnae.agaat.infra.database.in.memory.CecaneRepositoryInMemory;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.UpdateCecaneHttpRequest;
 import br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.create.CreateCecaneHttpResponse;
 import br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.retrieve.by.filter.RetrieveCecaneByFilterHttpResponse;
@@ -18,13 +18,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@Tag("integrationTest")
+@Tag("e2eTest")
 @AutoConfigureMockMvc
 @SpringBootTest
+@ActiveProfiles(profiles = "test")
 class CecaneControllerTest {
 
     @Autowired
@@ -34,7 +36,7 @@ class CecaneControllerTest {
     private ObjectMapper mapper;
 
     @Autowired
-    private CecaneRepositoryInMemory repository;
+    private CecaneRepository repository;
 
     @BeforeEach
     void setUp() {
@@ -56,7 +58,7 @@ class CecaneControllerTest {
                 )
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.header().exists("Location"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.cecane_id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.cecane_id").isString())
                 .andReturn().getResponse().getContentAsByteArray();
 
         // then
@@ -236,7 +238,7 @@ class CecaneControllerTest {
 
         // when
         final var result = this.mvc.perform(
-                        MockMvcRequestBuilders.get("/cecanes")
+                        MockMvcRequestBuilders.get("/cecanes?sort=null")
                 )
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError())
                 .andReturn().getResponse().getContentAsByteArray();
@@ -245,7 +247,6 @@ class CecaneControllerTest {
         final var actualResponse = mapper.readValue(result, ErrorInfo.class);
         Assertions.assertNotNull(actualResponse);
     }
-
 
     @Test
     public void ShouldUpdateCecaneById() throws Exception {
@@ -264,14 +265,15 @@ class CecaneControllerTest {
                                 .content(mapper.writeValueAsString(input))
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.cecane_id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.cecane_id").isString())
                 .andReturn().getResponse().getContentAsByteArray();
 
         // then
         final var actualResponse = mapper.readValue(result, UpdateCecaneHttpResponse.class);
         Assertions.assertNotNull(actualResponse);
         Assertions.assertNotNull(actualResponse.cecaneId());
-        Assertions.assertEquals(cecane.nome(), actualResponse.nome());
+        Assertions.assertEquals(cecane.id().value(), actualResponse.cecaneId());
+        Assertions.assertEquals(input.nome(), actualResponse.nome());
     }
 
     @Test
@@ -344,7 +346,7 @@ class CecaneControllerTest {
     public void ShouldDeleteCecaneInvalidId() throws Exception {
 
         // given
-        final var cecaneId = CecaneId.from(100L);
+        final var cecaneId = CecaneId.generate();
 
         // when
         this.mvc.perform(

@@ -6,9 +6,10 @@ import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
 import jakarta.inject.Named;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Named
-public class DeleteCecaneUseCase extends UnitUseCase<Long> {
+public class DeleteCecaneUseCase extends UnitUseCase<UUID> {
     private final CecaneRepository repository;
 
     public DeleteCecaneUseCase(final CecaneRepository repository) {
@@ -16,7 +17,7 @@ public class DeleteCecaneUseCase extends UnitUseCase<Long> {
     }
 
     @Override
-    public void execute(final Long id) {
+    public void execute(final UUID id) {
         this.repository.deleteById(CecaneId.from(id));
     }
 }

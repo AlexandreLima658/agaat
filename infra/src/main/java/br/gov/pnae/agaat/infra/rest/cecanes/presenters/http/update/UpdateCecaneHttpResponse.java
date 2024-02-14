@@ -4,8 +4,10 @@ import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneOutput;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.core.util.Json;
 
+import java.util.UUID;
+
 public record UpdateCecaneHttpResponse(
-        @JsonProperty("cecane_id") Long cecaneId,
+        @JsonProperty("cecane_id") UUID cecaneId,
         @JsonProperty("nome") String nome
 ) {
 

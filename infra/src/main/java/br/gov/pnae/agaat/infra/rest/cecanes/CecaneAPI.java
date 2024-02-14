@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RequestMapping(value = "cecanes")
 @Tag(name = "Cecanes")
 public interface CecaneAPI {
@@ -34,20 +36,21 @@ public interface CecaneAPI {
             @ApiResponse(responseCode = "404", description = "Cecane não foi encontrado"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
     })
-    Object retrieveById(@PathVariable(name = "cecaneId") Long cecaneId);
+    Object retrieveById(@PathVariable(name = "cecaneId") UUID cecaneId);
 
     @GetMapping
-    @Operation(summary = "Listar todas as Cecanes paginadas")
+    @Operation(summary = "Recuperar uma lista de Cecanes")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Listado com sucesso"),
             @ApiResponse(responseCode = "422", description = "Um parâmetro inválido foi recebido"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
     })
     Object retrieveByFilter(
-            @RequestParam(name = "search", required = false, defaultValue = "") final String search,
             @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
             @RequestParam(name = "per_page", required = false, defaultValue = "5") final int perPage,
-            @RequestParam(name = "sort", required = false, defaultValue = "") final String sort
+            @RequestParam(name = "terms", required = false, defaultValue = "") final String terms,
+            @RequestParam(name = "sort", required = false, defaultValue = "nome") final String sort,
+            @RequestParam(name = "direction", required = false, defaultValue = "asc") final String direction
     );
 
     @PutMapping(
@@ -61,7 +64,7 @@ public interface CecaneAPI {
             @ApiResponse(responseCode = "422", description = "A validação falhou"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
     })
-    Object update(@PathVariable(name = "id") Long id, @RequestBody UpdateCecaneHttpRequest request);
+    Object update(@PathVariable(name = "id") UUID id, @RequestBody UpdateCecaneHttpRequest request);
 
     @DeleteMapping(
             value = "{cecaneId}"
@@ -72,5 +75,5 @@ public interface CecaneAPI {
             @ApiResponse(responseCode = "204", description = "Cecane deletada com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
     })
-    void delete(@PathVariable(name = "cecaneId") Long cecaneId);
+    void delete(@PathVariable(name = "cecaneId") UUID cecaneId);
 }

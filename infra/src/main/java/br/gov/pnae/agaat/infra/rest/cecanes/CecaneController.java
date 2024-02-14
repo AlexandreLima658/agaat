@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @RestController
 public class CecaneController implements CecaneAPI {
@@ -53,7 +54,7 @@ public class CecaneController implements CecaneAPI {
 
 
     @Override
-    public Object retrieveById(final Long id) {
+    public Object retrieveById(final UUID id) {
 
         final var presenter = new RetrieveCecaneByIdHttpPresenter();
 
@@ -63,16 +64,19 @@ public class CecaneController implements CecaneAPI {
 
     @Override
     public Object retrieveByFilter(
-            final String search,
             final int page,
             final int perPage,
-            final String sort) {
+            final String terms,
+            final String sort,
+            final String direction
+    ) {
 
         final var query = new SearchQuery(
                 page,
                 perPage,
-                search,
-                sort
+                terms,
+                sort,
+                direction
         );
 
         final var presenter = new RetrieveCecaneByFilterHttpPresenter();
@@ -81,7 +85,7 @@ public class CecaneController implements CecaneAPI {
     }
 
     @Override
-    public Object update(final Long id, final UpdateCecaneHttpRequest request) {
+    public Object update(final UUID id, final UpdateCecaneHttpRequest request) {
 
         final var presenter = new UpdateCecaneHttpPresenter();
 
@@ -91,7 +95,7 @@ public class CecaneController implements CecaneAPI {
     }
 
     @Override
-    public void delete(final Long id) {
+    public void delete(final UUID id) {
         this.deleteCecaneUseCase.execute(id);
     }
 }

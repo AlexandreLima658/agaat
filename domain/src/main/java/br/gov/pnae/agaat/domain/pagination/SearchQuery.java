@@ -4,6 +4,7 @@ public record SearchQuery(
         int page,
         int perPage,
         String terms,
-        String sort
+        String sortBy,
+        String sortDirection
 ) {
 }

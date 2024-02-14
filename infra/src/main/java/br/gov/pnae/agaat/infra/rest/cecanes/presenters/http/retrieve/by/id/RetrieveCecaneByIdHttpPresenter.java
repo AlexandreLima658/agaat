@@ -8,13 +8,10 @@ import org.springframework.http.ResponseEntity;
 public class RetrieveCecaneByIdHttpPresenter implements Presenter<RetrieveCecaneByIdOutput, Object> {
 
     @Override
-    public ResponseEntity<?> present(final RetrieveCecaneByIdOutput output) {
+    public Object present(final RetrieveCecaneByIdOutput output) {
 
-        return ResponseEntity
-                .ok()
-                .body(
-                        RetrieveCecaneByIdHttpResponse.mapperTo(output)
-                );
+        return RetrieveCecaneByIdHttpResponse.from(output);
+
     }
 
     @Override

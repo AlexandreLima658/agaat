@@ -8,19 +8,18 @@ import org.springframework.http.ResponseEntity;
 public class UpdateCecaneHttpPresenter implements Presenter<UpdateCecaneOutput, Object> {
 
     @Override
-    public ResponseEntity<?> present(final UpdateCecaneOutput output) {
+    public Object present(final UpdateCecaneOutput output) {
 
-        return ResponseEntity
-                .ok()
-                .body(UpdateCecaneHttpResponse.mapperTo(output));
+        return UpdateCecaneHttpResponse.mapperTo(output);
 
     }
 
     @Override
     public ResponseEntity<?> present(final Throwable throwable) {
-        return ResponseEntity.unprocessableEntity().body(
-                new ErrorInfo(throwable.getMessage())
-        );
+        return ResponseEntity.unprocessableEntity()
+                .body(
+                        new ErrorInfo(throwable.getMessage())
+                );
     }
 
 }

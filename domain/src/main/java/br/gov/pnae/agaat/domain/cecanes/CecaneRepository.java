@@ -17,4 +17,6 @@ public interface CecaneRepository {
     void deleteById(final CecaneId id);
 
     Pagination<Cecane> findAll(SearchQuery aQuery);
+
+    void deleteAll();
 }

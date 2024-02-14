@@ -3,11 +3,13 @@ package br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.create;
 import br.gov.pnae.agaat.application.cecanes.create.CreateCecaneOutput;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.UUID;
+
 public record CreateCecaneHttpResponse(
-        @JsonProperty("cecane_id") Long cecaneId
+        @JsonProperty("cecane_id") UUID cecaneId
 ) {
 
-    public static CreateCecaneHttpResponse mapperTo(final CreateCecaneOutput output) {
+    public static CreateCecaneHttpResponse from(final CreateCecaneOutput output) {
         return new CreateCecaneHttpResponse(
                 output.id()
         );

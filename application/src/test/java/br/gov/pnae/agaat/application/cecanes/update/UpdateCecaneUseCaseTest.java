@@ -16,8 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
-@Tag("unitTest")
+@Tag("integrationTest")
 class UpdateCecaneUseCaseTest {
+
     @Test
     @DisplayName("Deve atualizar e persistir um Cecane")
     void shouldUpdateCecaneUseCase() {

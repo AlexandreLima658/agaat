@@ -10,17 +10,17 @@ import static java.net.URI.create;
 public class CreateCecaneHttpPresenter implements Presenter<CreateCecaneOutput, Object> {
 
     @Override
-    public ResponseEntity<?> present(final CreateCecaneOutput output) {
+    public Object present(final CreateCecaneOutput output) {
 
         return ResponseEntity
                 .created(create("/cecanes/" + output.id()))
                 .body(
-                        CreateCecaneHttpResponse.mapperTo(output)
+                        CreateCecaneHttpResponse.from(output)
                 );
     }
 
     @Override
-    public ResponseEntity<?> present(final Throwable throwable) {
+    public Object present(final Throwable throwable) {
         return ResponseEntity.unprocessableEntity().body(
                 new ErrorInfo(throwable.getMessage())
         );

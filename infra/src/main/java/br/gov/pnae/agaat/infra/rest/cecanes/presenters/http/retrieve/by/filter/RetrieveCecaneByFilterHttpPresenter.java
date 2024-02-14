@@ -12,13 +12,10 @@ public class RetrieveCecaneByFilterHttpPresenter implements Presenter<Pagination
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(RetrieveCecaneByFilterHttpPresenter.class);
 
     @Override
-    public ResponseEntity<Pagination<?>> present(final Pagination<RetrieveCecanesByFilterOutput> output) {
+    public Object present(final Pagination<RetrieveCecanesByFilterOutput> output) {
 
-        return ResponseEntity
-                .ok()
-                .body(
-                        output.map(RetrieveCecaneByFilterHttpResponse::mapperTo)
-                );
+        return output.map(RetrieveCecaneByFilterHttpResponse::from);
+
     }
 
     @Override

@@ -8,9 +8,10 @@ import br.gov.pnae.agaat.domain.commons.exceptions.NotFoundException;
 import jakarta.inject.Named;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Named
-public class RetrieveCecaneByIdUseCase extends UseCase<Long, RetrieveCecaneByIdOutput> {
+public class RetrieveCecaneByIdUseCase extends UseCase<UUID, RetrieveCecaneByIdOutput> {
     private final CecaneRepository repository;
 
     public RetrieveCecaneByIdUseCase(final CecaneRepository repository) {
@@ -18,7 +19,7 @@ public class RetrieveCecaneByIdUseCase extends UseCase<Long, RetrieveCecaneByIdO
     }
 
     @Override
-    public RetrieveCecaneByIdOutput execute(final Long id) {
+    public RetrieveCecaneByIdOutput execute(final UUID id) {
 
         final var cecaneId = CecaneId.from(id);
 

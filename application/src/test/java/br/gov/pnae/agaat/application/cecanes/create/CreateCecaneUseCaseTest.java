@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@Tag("unitTests")
+@Tag("integrationTest")
 class CreateCecaneUseCaseTest {
 
 
