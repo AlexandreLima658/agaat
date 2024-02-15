@@ -7,8 +7,9 @@ import br.gov.pnae.agaat.domain.pagination.SearchQuery;
 import jakarta.inject.Named;
 
 import java.util.Objects;
+
 @Named
-public class RetrieveCecanesByFilterUseCase extends UseCase<SearchQuery, Pagination<RetrieveCecanesByFilterOutput>> {
+public final class RetrieveCecanesByFilterUseCase extends UseCase<SearchQuery, Pagination<RetrieveCecanesByFilterOutput>> {
     private final CecaneRepository repository;
 
     public RetrieveCecanesByFilterUseCase(final CecaneRepository repository) {
@@ -16,7 +17,7 @@ public class RetrieveCecanesByFilterUseCase extends UseCase<SearchQuery, Paginat
     }
 
     @Override
-    public Pagination<RetrieveCecanesByFilterOutput> execute(final SearchQuery aQuery) {
+    protected Pagination<RetrieveCecanesByFilterOutput> execute(final SearchQuery aQuery) {
         return this.repository
                 .findAll(aQuery)
                 .map(RetrieveCecanesByFilterOutput::fromAggregate);

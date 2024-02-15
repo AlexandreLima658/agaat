@@ -13,9 +13,7 @@ public class RetrieveCecaneByFilterHttpPresenter implements Presenter<Pagination
 
     @Override
     public Object present(final Pagination<RetrieveCecanesByFilterOutput> output) {
-
         return output.map(RetrieveCecaneByFilterHttpResponse::from);
-
     }
 
     @Override

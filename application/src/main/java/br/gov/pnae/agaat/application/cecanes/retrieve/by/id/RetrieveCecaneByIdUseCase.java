@@ -19,7 +19,7 @@ public class RetrieveCecaneByIdUseCase extends UseCase<UUID, RetrieveCecaneByIdO
     }
 
     @Override
-    public RetrieveCecaneByIdOutput execute(final UUID id) {
+    protected RetrieveCecaneByIdOutput execute(final UUID id) {
 
         final var cecaneId = CecaneId.from(id);
 

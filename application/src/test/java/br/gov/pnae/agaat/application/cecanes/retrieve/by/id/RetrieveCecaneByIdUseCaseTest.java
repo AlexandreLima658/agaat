@@ -1,6 +1,5 @@
-package br.gov.pnae.agaat.application.cecanes.retrieve.get;
+package br.gov.pnae.agaat.application.cecanes.retrieve.by.id;
 
-import br.gov.pnae.agaat.application.cecanes.retrieve.by.id.RetrieveCecaneByIdUseCase;
 import br.gov.pnae.agaat.domain.cecanes.CecaneFactory;
 import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
@@ -37,8 +36,10 @@ class RetrieveCecaneByIdUseCaseTest {
                 repository.findById(cecane.id())
         ).thenReturn(Optional.of(cecane));
 
+        final var useCase = new RetrieveCecaneByIdUseCase(repository);
+
         // when
-        final var result = new RetrieveCecaneByIdUseCase(repository).execute(cecane.id().value());
+        final var result = useCase.execute(cecane.id().value());
 
         // then
         assertNotNull(result);

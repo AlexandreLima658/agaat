@@ -19,7 +19,7 @@ public class UpdateCecaneUseCase extends UseCase<UpdateCecaneInput, UpdateCecane
     }
 
     @Override
-    public UpdateCecaneOutput execute(final UpdateCecaneInput input) {
+    protected UpdateCecaneOutput execute(final UpdateCecaneInput input) {
 
         final var id = CecaneId.from(input.id());
         final var name = new CecaneNome(input.name());

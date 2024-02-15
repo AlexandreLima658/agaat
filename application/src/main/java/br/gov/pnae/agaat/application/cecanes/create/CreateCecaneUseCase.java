@@ -16,7 +16,7 @@ public class CreateCecaneUseCase extends UseCase<CreateCecaneInput, CreateCecane
     }
 
     @Override
-    public CreateCecaneOutput execute(final CreateCecaneInput input) {
+    protected CreateCecaneOutput execute(final CreateCecaneInput input) {
 
         final var cecane = CecaneFactory.create(
                 input.nome()

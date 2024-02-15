@@ -4,6 +4,6 @@ public interface Presenter<IN, OUT> {
 
     OUT present(IN data);
 
-    OUT present(Throwable throwable);
+    OUT present(final Throwable throwable);
 
 }

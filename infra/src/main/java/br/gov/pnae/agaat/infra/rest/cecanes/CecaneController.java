@@ -43,11 +43,9 @@ public class CecaneController implements CecaneAPI {
     @Override
     public Object create(@RequestBody final CreateCecaneInput request) {
 
-        final var presenter = new CreateCecaneHttpPresenter();
-
         return this.createCecaneUseCase.execute(
                 request,
-                presenter
+                new CreateCecaneHttpPresenter()
         );
 
     }
