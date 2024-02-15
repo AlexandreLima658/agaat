@@ -6,7 +6,7 @@ import br.gov.pnae.agaat.domain.commons.entities.AggregateRoot;
 
 public class Cecane extends AggregateRoot<CecaneId> {
 
-    CecaneNome nome;
+    private CecaneNome nome;
 
     Cecane(final CecaneId cecaneId, final CecaneNome nome) {
         super(cecaneId);

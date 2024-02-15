@@ -1,15 +1,14 @@
 package br.gov.pnae.agaat.domain.cecanes;
 
+import br.gov.pnae.agaat.domain.UnitTest;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@Tag("unitTest")
-class CecaneFactoryTest {
+class CecaneFactoryTest extends UnitTest {
 
     @Test
     @DisplayName("Deve criar um Cecane")

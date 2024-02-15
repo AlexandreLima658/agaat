@@ -116,7 +116,7 @@ class CecaneControllerTest {
     }
 
     @Test
-    public void ShouldGetPaginatedCecanesSortByNome() throws Exception {
+    public void shouldGetPaginatedCecanesSortByNome() throws Exception {
 
         // given
         final var nomes = new String[]{"UFC Russas", "UFC Quixadá", "UFC Fortaleza", "UFC Sobral", "UFC Crateús"};
@@ -146,6 +146,37 @@ class CecaneControllerTest {
         Assertions.assertEquals("UFC Fortaleza", actualResponse.items().get(1).nome());
 
     }
+
+    @Test
+    @DisplayName("Deve filtrar Cecanes por termo")
+    public void shouldFilterCecanesByTerm() throws Exception {
+
+        // given
+        final var nomes = new String[]{"IFCE Morada Nova", "IFCE Fortaleza", "IFCE Cedro", "IFCE Aracati", "UFC Russas", "UFC Quixadá", "UFC Fortaleza", "UFC Sobral", "UFC Crateús"};
+
+        for (String nome : nomes) {
+            final var cecane = CecaneFactory.create(nome);
+            repository.persist(cecane);
+        }
+
+        // when
+        final var result = this.mvc.perform(
+                        MockMvcRequestBuilders.get("/cecanes?terms=ifce")
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsByteArray();
+
+        // then
+        final var actualResponse = mapper.readValue(result, new TypeReference<Pagination<RetrieveCecaneByFilterHttpResponse>>() {
+        });
+        Assertions.assertNotNull(actualResponse);
+
+        for (final var response : actualResponse.items()) {
+            Assertions.assertTrue(response.nome().toLowerCase().contains("ifce"));
+        }
+
+    }
+
 
 
     @Test

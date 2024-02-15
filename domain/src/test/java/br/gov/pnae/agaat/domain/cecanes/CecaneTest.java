@@ -1,13 +1,12 @@
 package br.gov.pnae.agaat.domain.cecanes;
 
+import br.gov.pnae.agaat.domain.UnitTest;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneNome;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Tag("unitTest")
-class CecaneTest {
+class CecaneTest extends UnitTest {
 
     @Test
     void shouldUpdateCecane() {

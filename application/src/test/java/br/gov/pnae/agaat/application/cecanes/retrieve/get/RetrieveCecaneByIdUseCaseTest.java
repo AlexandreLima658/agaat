@@ -1,61 +1,74 @@
-//package br.gov.pnae.agaat.application.cecanes.retrieve.get;
-//
-//import br.gov.pnae.agaat.domain.cecanes.Cecane;
-//import br.gov.pnae.agaat.domain.cecanes.CecaneFactory;
-//import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
-//import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
-//import org.junit.jupiter.api.Tag;
-//import org.junit.jupiter.api.Test;
-//import org.mockito.Mockito;
-//
-//import java.util.Optional;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//@Tag("unitTest")
-//class RetrieveCecaneByIdUseCaseTest {
-//    @Test
-//    void shouldGetCecaneUseCase() {
-//        //given
-//        // Require NonNull
-//        RetrieveCecaneByIdUseCase getCecanesByIdUseCase =
-//                new RetrieveCecaneByIdUseCase(Mockito.mock(CecaneRepository.class));
-//
-//        // then
-//        assertNotNull(getCecanesByIdUseCase);
-//    }
-//
-//    @Test
-//    void testExecuteWhenFound() {
-//        //given
-//        final Long id = 1L;
-//        final CecaneId cecaneId = CecaneId.from(id);
-//        CecaneRepository repository = Mockito.mock(CecaneRepository.class);
-//        Cecane cecane = CecaneFactory.create(CecaneId.from(id), "Cecane 1").right();
-//        // when
-//        Mockito.when(repository.findById(cecaneId)).thenReturn(Optional.of(cecane));
-//        // then
-//        RetrieveCecaneByIdOutput result = new RetrieveCecaneByIdUseCase(repository).execute(id).get();
-//        assertEquals(1, result.id());
-//
-//    }
-//
-//    @Test
-//    void testExecuteWhenNotFound() {
-//        //given
-//        final Long id = 1L;
-//        final CecaneId cecaneId = CecaneId.from(id);
-//        CecaneRepository repository = Mockito.mock(CecaneRepository.class);
-//        // when
-//        Mockito.when(repository.findById(cecaneId)).thenReturn(Optional.empty());
-//
-//        final var useCase = new RetrieveCecaneByIdUseCase(repository).execute(id);
-//        // then
-//
-//        assertNotNull(useCase);
-//        assertTrue(useCase.isEmpty());
-//
-//
-//    }
-//
-//}
+package br.gov.pnae.agaat.application.cecanes.retrieve.get;
+
+import br.gov.pnae.agaat.application.cecanes.retrieve.by.id.RetrieveCecaneByIdUseCase;
+import br.gov.pnae.agaat.domain.cecanes.CecaneFactory;
+import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
+import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
+import br.gov.pnae.agaat.domain.commons.exceptions.NotFoundException;
+import org.junit.jupiter.api.*;
+import org.mockito.Mockito;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
+
+@Tag("integrationTest")
+class RetrieveCecaneByIdUseCaseTest {
+
+    private final CecaneRepository repository = mock(CecaneRepository.class);
+
+    @BeforeEach
+    void setUp() {
+        Mockito.reset(repository);
+    }
+
+    @Test
+    @DisplayName("Deve retornar um Cecane pelo id")
+    void shouldReturnCecaneById() {
+
+        // given
+        final var cecane = CecaneFactory.create(
+                "IFCE - Campus Acaraú"
+        );
+
+        Mockito.when(
+                repository.findById(cecane.id())
+        ).thenReturn(Optional.of(cecane));
+
+        // when
+        final var result = new RetrieveCecaneByIdUseCase(repository).execute(cecane.id().value());
+
+        // then
+        assertNotNull(result);
+        assertEquals(cecane.id().value(), result.id());
+        assertEquals(cecane.nome(), result.nome());
+
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção quando não encontrar um Cecane")
+    void shouldThrowExceptionWhenNotFound() {
+
+        // given
+        final var cecaneId = CecaneId.generate();
+
+        Mockito.when(
+                repository.findById(cecaneId)
+        ).thenReturn(Optional.empty());
+
+        final var expectedErrorMessage = "Cecane com ID %s não encontrado".formatted(cecaneId.value());
+
+        // when
+        final var error = Assertions.assertThrows(
+                NotFoundException.class,
+                () -> new RetrieveCecaneByIdUseCase(repository).execute(cecaneId.value())
+        );
+
+        // then
+        assertEquals(expectedErrorMessage, error.getMessage());
+
+    }
+
+}

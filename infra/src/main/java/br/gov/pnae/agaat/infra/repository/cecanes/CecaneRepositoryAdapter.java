@@ -85,7 +85,6 @@ public class CecaneRepositoryAdapter implements CecaneRepository {
 
         return (root, query, builder) ->
                 builder.or(
-                        builder.like(root.get("id"), searchTerms),
                         builder.like(root.get("nome"), searchTerms)
                 );
     }

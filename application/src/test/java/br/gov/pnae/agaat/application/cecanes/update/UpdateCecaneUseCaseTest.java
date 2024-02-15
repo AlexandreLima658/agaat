@@ -60,6 +60,7 @@ class UpdateCecaneUseCaseTest {
         final var updateCecaneUseCase = new UpdateCecaneUseCase(repository);
 
         final var id = CecaneId.generate();
+
         final var input = new UpdateCecaneInput(
                 id.value(),
                 "IFCE - Campus Fortaleza"
