@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class CecaneRepositoryAdapter implements CecaneRepository {
+public class CecaneRepositoryImpl implements CecaneRepository {
 
     private final CecaneJpaRepository repository;
 
-    public CecaneRepositoryAdapter(final CecaneJpaRepository repository) {
+    public CecaneRepositoryImpl(final CecaneJpaRepository repository) {
         this.repository = repository;
     }
 

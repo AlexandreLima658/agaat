@@ -26,7 +26,7 @@ public interface CecaneAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Criado com sucesso", content = @Content(schema = @Schema(implementation = CreateCecaneHttpResponse.class))),
             @ApiResponse(responseCode = "422", description = "A validação falhou", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
-            @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
     Object create(@RequestBody CreateCecaneInput request);
 
@@ -34,7 +34,7 @@ public interface CecaneAPI {
     @Operation(summary = "Obter uma Cecane pelo seu identificador")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cecane recuperada com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Cecane não foi encontrado"),
+            @ApiResponse(responseCode = "400", description = "Cecane não foi encontrado"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
     })
     ResponseEntity<?> retrieveById(@PathVariable(name = "cecaneId") UUID cecaneId);

@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class RetrieveCecaneByIdGatewayAdapter implements RetrieveCecaneByIdGateway {
+public class CecaneByIdQuery implements RetrieveCecaneByIdGateway {
 
     private final CecaneJpaRepository repository;
 
-    public RetrieveCecaneByIdGatewayAdapter(final CecaneJpaRepository repository) {
+    public CecaneByIdQuery(final CecaneJpaRepository repository) {
         this.repository = repository;
     }
 

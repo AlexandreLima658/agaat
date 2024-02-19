@@ -16,11 +16,11 @@ import java.util.Optional;
 import static org.springframework.data.domain.Sort.Direction.fromString;
 
 @Component
-public class RetrieveCecaneByFilterGatewayAdapter implements RetrieveCecanesByFilterGateway {
+public class CecaneByFilterQuery implements RetrieveCecanesByFilterGateway {
 
     private final CecaneJpaRepository repository;
 
-    public RetrieveCecaneByFilterGatewayAdapter(final CecaneJpaRepository repository) {
+    public CecaneByFilterQuery(final CecaneJpaRepository repository) {
         this.repository = repository;
     }
 
