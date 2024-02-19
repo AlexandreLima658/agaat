@@ -1,6 +1,6 @@
 package br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.update;
 
-import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneOutput;
+import br.gov.pnae.agaat.application.cecanes.command.update.UpdateCecaneOutput;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;

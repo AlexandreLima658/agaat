@@ -1,11 +1,5 @@
 package br.gov.pnae.agaat.domain.cecanes;
 
-import br.gov.pnae.agaat.domain.UnitTest;
-import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneNome;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 //class CecaneTest extends UnitTest {
 //
 //    @Test

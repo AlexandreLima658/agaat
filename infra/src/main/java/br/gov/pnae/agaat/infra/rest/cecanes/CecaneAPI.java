@@ -1,6 +1,6 @@
 package br.gov.pnae.agaat.infra.rest.cecanes;
 
-import br.gov.pnae.agaat.application.cecanes.create.CreateCecaneInput;
+import br.gov.pnae.agaat.application.cecanes.command.create.CreateCecaneInput;
 import br.gov.pnae.agaat.domain.commons.exceptions.ErrorInfo;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.UpdateCecaneHttpRequest;
 import br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.create.CreateCecaneHttpResponse;
@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -36,7 +37,7 @@ public interface CecaneAPI {
             @ApiResponse(responseCode = "404", description = "Cecane não foi encontrado"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
     })
-    Object retrieveById(@PathVariable(name = "cecaneId") UUID cecaneId);
+    ResponseEntity<?> retrieveById(@PathVariable(name = "cecaneId") UUID cecaneId);
 
     @GetMapping
     @Operation(summary = "Recuperar uma lista de Cecanes")
@@ -45,7 +46,7 @@ public interface CecaneAPI {
             @ApiResponse(responseCode = "422", description = "Um parâmetro inválido foi recebido"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
     })
-    Object retrieveByFilter(
+    ResponseEntity<?> retrieveByFilter(
             @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
             @RequestParam(name = "per_page", required = false, defaultValue = "5") final int perPage,
             @RequestParam(name = "terms", required = false, defaultValue = "") final String terms,

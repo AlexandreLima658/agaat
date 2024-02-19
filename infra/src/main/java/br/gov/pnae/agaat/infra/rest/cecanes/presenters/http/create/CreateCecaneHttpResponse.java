@@ -1,6 +1,6 @@
 package br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.create;
 
-import br.gov.pnae.agaat.application.cecanes.create.CreateCecaneOutput;
+import br.gov.pnae.agaat.application.cecanes.command.create.CreateCecaneOutput;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;

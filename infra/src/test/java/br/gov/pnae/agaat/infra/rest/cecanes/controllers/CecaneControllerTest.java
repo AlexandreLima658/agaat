@@ -1,6 +1,8 @@
 package br.gov.pnae.agaat.infra.rest.cecanes.controllers;
 
-import br.gov.pnae.agaat.application.cecanes.create.CreateCecaneInput;
+import br.gov.pnae.agaat.application.cecanes.command.create.CreateCecaneInput;
+import br.gov.pnae.agaat.application.cecanes.query.filter.RetrieveCecanesByFilterOutput;
+import br.gov.pnae.agaat.application.cecanes.query.id.RetrieveCecaneByIdOutput;
 import br.gov.pnae.agaat.domain.cecanes.CecaneFactory;
 import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
@@ -9,12 +11,13 @@ import br.gov.pnae.agaat.domain.pagination.Pagination;
 import br.gov.pnae.agaat.infra.E2eTest;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.UpdateCecaneHttpRequest;
 import br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.create.CreateCecaneHttpResponse;
-import br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.retrieve.by.filter.RetrieveCecaneByFilterHttpResponse;
-import br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.retrieve.by.id.RetrieveCecaneByIdHttpResponse;
 import br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.update.UpdateCecaneHttpResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -46,7 +49,7 @@ class CecaneControllerTest extends E2eTest {
 
     @Test
     @DisplayName("Deve criar um Cecane a partir de uma requisição válida")
-    public void ShouldCreateCecane() throws Exception {
+    public void shouldCreateCecane() throws Exception {
 
         //given
         final var input = new CreateCecaneInput("UFC Russas");
@@ -71,7 +74,7 @@ class CecaneControllerTest extends E2eTest {
 
     @Test
     @DisplayName("Deve retornar erro ao tentar criar um Cecane com nome inválido")
-    public void ShouldCreateCecaneWithInvalidName() throws Exception {
+    public void shouldCreateCecaneWithInvalidName() throws Exception {
 
         //given
         final var input = new CreateCecaneInput("");
@@ -95,7 +98,7 @@ class CecaneControllerTest extends E2eTest {
 
     @Test
     @DisplayName("Deve retornar um Cecane a partir de um id válido")
-    public void ShouldGetCecaneById() throws Exception {
+    public void shouldGetCecaneById() throws Exception {
 
         // given
         final var cecane = CecaneFactory.create("UFC Russas");
@@ -109,9 +112,9 @@ class CecaneControllerTest extends E2eTest {
                 .andReturn().getResponse().getContentAsByteArray();
 
         // then
-        final var actualResponse = mapper.readValue(result, RetrieveCecaneByIdHttpResponse.class);
+        final var actualResponse = mapper.readValue(result, RetrieveCecaneByIdOutput.class);
         Assertions.assertNotNull(actualResponse);
-        Assertions.assertEquals(cecane.id().value(), actualResponse.cecaneId());
+        Assertions.assertEquals(cecane.id().value(), actualResponse.id());
         Assertions.assertEquals(cecane.nome(), actualResponse.nome());
 
     }
@@ -135,7 +138,7 @@ class CecaneControllerTest extends E2eTest {
                 .andReturn().getResponse().getContentAsByteArray();
 
         // then
-        final var actualResponse = mapper.readValue(result, new TypeReference<Pagination<RetrieveCecaneByFilterHttpResponse>>() {
+        final var actualResponse = mapper.readValue(result, new TypeReference<Pagination<RetrieveCecaneByIdOutput>>() {
         });
         Assertions.assertNotNull(actualResponse);
         Assertions.assertEquals(2, actualResponse.items().size());
@@ -168,9 +171,10 @@ class CecaneControllerTest extends E2eTest {
                 .andReturn().getResponse().getContentAsByteArray();
 
         // then
-        final var actualResponse = mapper.readValue(result, new TypeReference<Pagination<RetrieveCecaneByFilterHttpResponse>>() {
+        final var actualResponse = mapper.readValue(result, new TypeReference<Pagination<RetrieveCecanesByFilterOutput>>() {
         });
         Assertions.assertNotNull(actualResponse);
+        Assertions.assertEquals(4, actualResponse.items().size());
 
         for (final var response : actualResponse.items()) {
             Assertions.assertTrue(response.nome().toLowerCase().contains("ifce"));
@@ -179,9 +183,9 @@ class CecaneControllerTest extends E2eTest {
     }
 
 
-
     @Test
-    public void ShouldGetPaginatedCecanesByTerm() throws Exception {
+    @DisplayName("Deve filtrar Cecanes por termo e ordenar por nome")
+    public void shouldGetPaginatedCecanesSortByNomeAndFilterByTerm() throws Exception {
 
         // given
         final var nomes = new String[]{"IFCE Morada Nova", "IFCE Fortaleza", "IFCE Cedro", "IFCE Aracati", "UFC Russas", "UFC Quixadá", "UFC Fortaleza", "UFC Sobral", "UFC Crateús"};
@@ -199,7 +203,7 @@ class CecaneControllerTest extends E2eTest {
                 .andReturn().getResponse().getContentAsByteArray();
 
         // then
-        final var actualResponse = mapper.readValue(result, new TypeReference<Pagination<RetrieveCecaneByFilterHttpResponse>>() {
+        final var actualResponse = mapper.readValue(result, new TypeReference<Pagination<RetrieveCecanesByFilterOutput>>() {
         });
         Assertions.assertNotNull(actualResponse);
         Assertions.assertEquals(2, actualResponse.items().size());
@@ -214,7 +218,8 @@ class CecaneControllerTest extends E2eTest {
 
 
     @Test
-    public void ShouldGetPaginatedCecanesSortByEmptyTerm() throws Exception {
+    @DisplayName("Deve retornar todos os Cecanes paginados")
+    public void shouldGetPaginatedCecanes() throws Exception {
 
         // given
         final var nomes = new String[]{"UFC Russas", "UFC Quixadá", "UFC Fortaleza", "UFC Sobral", "UFC Crateús"};
@@ -232,7 +237,7 @@ class CecaneControllerTest extends E2eTest {
                 .andReturn().getResponse().getContentAsByteArray();
 
         // then
-        final var actualResponse = mapper.readValue(result, new TypeReference<Pagination<RetrieveCecaneByFilterHttpResponse>>() {
+        final var actualResponse = mapper.readValue(result, new TypeReference<Pagination<RetrieveCecanesByFilterOutput>>() {
         });
         Assertions.assertNotNull(actualResponse);
     }
@@ -251,15 +256,16 @@ class CecaneControllerTest extends E2eTest {
 
         // when
         final var result = this.mvc.perform(
-                        MockMvcRequestBuilders.get("/cecanes?page=0&per_page=2&term=1&sort=nome")
+                        MockMvcRequestBuilders.get("/cecanes?page=0&per_page=2&terms=1&sort=nome")
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn().getResponse().getContentAsByteArray();
 
         // then
-        final var actualResponse = mapper.readValue(result, new TypeReference<Pagination<RetrieveCecaneByFilterHttpResponse>>() {
+        final var actualResponse = mapper.readValue(result, new TypeReference<Pagination<RetrieveCecaneByIdOutput>>() {
         });
         Assertions.assertNotNull(actualResponse);
+        Assertions.assertEquals(0, actualResponse.items().size());
     }
 
     @Test
@@ -272,7 +278,7 @@ class CecaneControllerTest extends E2eTest {
         final var result = this.mvc.perform(
                         MockMvcRequestBuilders.get("/cecanes?sort=null")
                 )
-                .andExpect(MockMvcResultMatchers.status().isInternalServerError())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andReturn().getResponse().getContentAsByteArray();
 
         // then
@@ -309,8 +315,8 @@ class CecaneControllerTest extends E2eTest {
     }
 
     @Test
-    // TODO O que esse método está testando?
-    public void test1() throws Exception {
+    @DisplayName("Deve retornar erro ao tentar atualizar um Cecane com nome inválido")
+    public void ShouldUpdateCecaneWithInvalidName() throws Exception {
 
         // given
         final var cecaneId = CecaneId.generate();
@@ -334,8 +340,8 @@ class CecaneControllerTest extends E2eTest {
     }
 
     @Test
-    // TODO O que esse método está testando?
-    public void test1Get() throws Exception {
+    @DisplayName("Deve retornar erro ao tentar buscar um Cecane com id inválido")
+    public void ShouldReturnErrorWhenCecaneIdIsInvalid() throws Exception {
 
         // given
         final var cecaneId = CecaneId.generate();
@@ -345,7 +351,7 @@ class CecaneControllerTest extends E2eTest {
         final var result = this.mvc.perform(
                         MockMvcRequestBuilders.get("/cecanes/{id}", cecaneId.value())
                 )
-                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andReturn().getResponse().getContentAsByteArray();
 
         // then

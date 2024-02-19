@@ -1,6 +1,6 @@
 package br.gov.pnae.agaat.infra.rest.cecanes.models;
 
-import br.gov.pnae.agaat.application.cecanes.update.UpdateCecaneInput;
+import br.gov.pnae.agaat.application.cecanes.command.update.UpdateCecaneInput;
 
 import java.util.UUID;
 

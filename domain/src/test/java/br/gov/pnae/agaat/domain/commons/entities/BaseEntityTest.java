@@ -3,7 +3,6 @@ package br.gov.pnae.agaat.domain.commons.entities;
 import br.gov.pnae.agaat.domain.UnitTest;
 import br.gov.pnae.agaat.domain.commons.ids.Identifier;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

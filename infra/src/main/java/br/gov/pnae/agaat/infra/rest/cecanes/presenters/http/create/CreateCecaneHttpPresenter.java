@@ -1,7 +1,7 @@
 package br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.create;
 
 import br.gov.pnae.agaat.application.Presenter;
-import br.gov.pnae.agaat.application.cecanes.create.CreateCecaneOutput;
+import br.gov.pnae.agaat.application.cecanes.command.create.CreateCecaneOutput;
 import br.gov.pnae.agaat.domain.commons.exceptions.ErrorInfo;
 import org.springframework.http.ResponseEntity;
 
