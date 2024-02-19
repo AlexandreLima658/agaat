@@ -1,13 +1,15 @@
 package br.gov.pnae.agaat.domain.commons.exceptions;
 
+import br.gov.pnae.agaat.domain.UnitTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Tag("unitTest")
-class DomainExceptionTest {
+class DomainExceptionTest extends UnitTest {
     @Test
+    @DisplayName("Deve criar uma DomainException quando passado uma mensagem")
     void shouldDomainException() {
         //given
         final String message = "Teste";
@@ -19,6 +21,7 @@ class DomainExceptionTest {
     }
 
     @Test
+    @DisplayName("Deve criar uma DomainException quando passado uma mensagem e uma causa")
     void shouldDomainExceptionWithCause() {
         //given
         final String message = "Teste";
@@ -30,10 +33,11 @@ class DomainExceptionTest {
     }
 
     @Test
+    @DisplayName("Deve criar uma DomainException")
     void shouldWithSigleError() {
 
         //given
-        ErrorInfo errorInfo = new ErrorInfo("Teste single error");
+        final var errorInfo = new ErrorInfo("Teste single error");
 
         //when
         final var domainException = DomainException.with(errorInfo);

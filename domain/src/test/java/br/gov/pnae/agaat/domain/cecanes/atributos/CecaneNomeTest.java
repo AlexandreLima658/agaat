@@ -1,15 +1,18 @@
 package br.gov.pnae.agaat.domain.cecanes.atributos;
 
+import br.gov.pnae.agaat.domain.UnitTest;
 import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@Tag("unitTest")
-class CecaneNomeTest {
+
+class CecaneNomeTest extends UnitTest {
     @Test
+    @DisplayName("Deve criar um CecaneNome")
     void shouldCreateCecaneNome() {
         // given
         final var nome = "Instituto Federal do Ceará - Campus Fortaleza";
@@ -22,6 +25,7 @@ class CecaneNomeTest {
     }
 
     @Test
+    @DisplayName("Não deve criar um CecaneNome com valor nulo")
     void shouldNotCreateCecaneNomeWithNullValue() {
 
         // given
@@ -35,6 +39,7 @@ class CecaneNomeTest {
     }
 
     @Test
+    @DisplayName("Não deve criar um CecaneNome com valor vazio")
     void shouldNotCreateCecaneNomeWithBlankValue() {
         // given
         final var blankName = "  ";

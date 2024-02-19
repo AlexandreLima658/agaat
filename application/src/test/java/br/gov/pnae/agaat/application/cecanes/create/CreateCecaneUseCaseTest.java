@@ -1,5 +1,6 @@
 package br.gov.pnae.agaat.application.cecanes.create;
 
+import br.gov.pnae.agaat.application.IntegrationTest;
 import br.gov.pnae.agaat.domain.cecanes.Cecane;
 import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
 import br.gov.pnae.agaat.domain.commons.exceptions.DomainException;
@@ -11,9 +12,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@Tag("integrationTest")
-class CreateCecaneUseCaseTest {
 
+class CreateCecaneUseCaseTest extends IntegrationTest {
 
     @Test
     @DisplayName("Deve criar uma cecane com input válido")

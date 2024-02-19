@@ -1,5 +1,6 @@
 package br.gov.pnae.agaat.application.cecanes.update;
 
+import br.gov.pnae.agaat.application.IntegrationTest;
 import br.gov.pnae.agaat.domain.cecanes.CecaneFactory;
 import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
@@ -16,9 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
-@Tag("integrationTest")
-class UpdateCecaneUseCaseTest {
 
+class UpdateCecaneUseCaseTest  extends IntegrationTest {
     @Test
     @DisplayName("Deve atualizar e persistir um Cecane")
     void shouldUpdateCecaneUseCase() {

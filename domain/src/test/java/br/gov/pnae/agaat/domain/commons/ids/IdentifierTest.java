@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class IdentifierTest {
+class IdentifierTest  {
 
     @Test
     @DisplayName("Deve criar um Identifier a partir de um valor")

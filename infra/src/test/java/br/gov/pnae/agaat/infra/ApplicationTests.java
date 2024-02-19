@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.env.AbstractEnvironment;
 
-@Tag("e2eTest")
-public class ApplicationTests {
+
+public class ApplicationTests extends E2eTest {
     @Test
     public void testMain() {
         System.setProperty(AbstractEnvironment.DEFAULT_PROFILES_PROPERTY_NAME, "test");

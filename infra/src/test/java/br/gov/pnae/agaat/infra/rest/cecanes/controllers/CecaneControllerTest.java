@@ -6,6 +6,7 @@ import br.gov.pnae.agaat.domain.cecanes.CecaneRepository;
 import br.gov.pnae.agaat.domain.cecanes.atributos.CecaneId;
 import br.gov.pnae.agaat.domain.commons.exceptions.ErrorInfo;
 import br.gov.pnae.agaat.domain.pagination.Pagination;
+import br.gov.pnae.agaat.infra.E2eTest;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.UpdateCecaneHttpRequest;
 import br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.create.CreateCecaneHttpResponse;
 import br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.retrieve.by.filter.RetrieveCecaneByFilterHttpResponse;
@@ -23,11 +24,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@Tag("e2eTest")
+
 @AutoConfigureMockMvc
 @SpringBootTest
 @ActiveProfiles(profiles = "test")
-class CecaneControllerTest {
+class CecaneControllerTest extends E2eTest {
 
     @Autowired
     private MockMvc mvc;

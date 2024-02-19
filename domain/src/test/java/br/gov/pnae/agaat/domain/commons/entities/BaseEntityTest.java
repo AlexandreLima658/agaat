@@ -1,14 +1,17 @@
 package br.gov.pnae.agaat.domain.commons.entities;
 
+import br.gov.pnae.agaat.domain.UnitTest;
 import br.gov.pnae.agaat.domain.commons.ids.Identifier;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Tag("unitTest")
-class BaseEntityTest {
+
+class BaseEntityTest extends UnitTest {
     @Test
+    @DisplayName("Deve criar uma entidade base")
     void shouldCreateBaseEntity() {
         // given
         final var expectedIdValue = 1L;
@@ -23,6 +26,7 @@ class BaseEntityTest {
     }
 
     @Test
+    @DisplayName("Deve criar uma entidade base e comparar com um objeto genérico nulo")
     void shouldCreateBaseEntityThenCompareWithNullableGenericObject() {
         // given
         final var expectedIdValue = 1L;
@@ -39,6 +43,7 @@ class BaseEntityTest {
     }
 
     @Test
+    @DisplayName("Deve criar uma entidade base e comparar com ela mesma")
     void shouldCreateBaseEntityAndCompareHashCode() {
         // when
         final var firstBaseEntity = new BaseEntity<Identifier<Long>>(new Identifier<Long>(1L) {}) {};
@@ -51,6 +56,7 @@ class BaseEntityTest {
     }
 
     @Test
+    @DisplayName("Deve criar uma entidade base e comparar com outra entidade base")
     void shouldCreateBaseEntityAndCompareIdentifiers() {
         class BaseEntityClass extends BaseEntity<Identifier<Long>> {
             protected BaseEntityClass(Identifier<Long> value) {
