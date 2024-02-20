@@ -4,6 +4,9 @@ import br.gov.pnae.agaat.application.cecanes.command.create.CreateCecaneInput;
 import br.gov.pnae.agaat.domain.commons.exceptions.ErrorInfo;
 import br.gov.pnae.agaat.infra.rest.cecanes.models.UpdateCecaneHttpRequest;
 import br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.create.CreateCecaneHttpResponse;
+import br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.retrieve.filter.RetrieveByFilterHttpResponse;
+import br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.retrieve.id.RetrieveByIdHttpResponse;
+import br.gov.pnae.agaat.infra.rest.cecanes.presenters.http.update.UpdateCecaneHttpResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,18 +36,18 @@ public interface CecaneAPI {
     @GetMapping(value = "{cecaneId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Obter uma Cecane pelo seu identificador")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Cecane recuperada com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Cecane não foi encontrado"),
-            @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
+            @ApiResponse(responseCode = "200", description = "Cecane recuperada com sucesso", content = @Content(schema = @Schema(implementation = RetrieveByIdHttpResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Cecane não foi encontrado", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
     ResponseEntity<?> retrieveById(@PathVariable(name = "cecaneId") UUID cecaneId);
 
     @GetMapping
     @Operation(summary = "Recuperar uma lista de Cecanes")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Listado com sucesso"),
-            @ApiResponse(responseCode = "422", description = "Um parâmetro inválido foi recebido"),
-            @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
+            @ApiResponse(responseCode = "200", description = "Listado com sucesso", content = @Content(schema = @Schema(implementation = RetrieveByFilterHttpResponse.class))),
+            @ApiResponse(responseCode = "422", description = "Um parâmetro inválido foi recebido", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
     ResponseEntity<?> retrieveByFilter(
             @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
@@ -61,9 +64,9 @@ public interface CecaneAPI {
     )
     @Operation(summary = "Atualizar uma Cecane pelo seu identificador")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Cecane atualizada com sucesso"),
-            @ApiResponse(responseCode = "422", description = "A validação falhou"),
-            @ApiResponse(responseCode = "500", description = "Erro interno do servidor"),
+            @ApiResponse(responseCode = "200", description = "Cecane atualizada com sucesso", content = @Content(schema = @Schema(implementation = UpdateCecaneHttpResponse.class))),
+            @ApiResponse(responseCode = "422", description = "A validação falhou", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
     Object update(@PathVariable(name = "id") UUID id, @RequestBody UpdateCecaneHttpRequest request);
 
