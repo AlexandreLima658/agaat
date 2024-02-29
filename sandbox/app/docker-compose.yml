@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  app:
+    hostname: agaat-pnae-api
+    container_name: br.gov.pnae.agaat.api
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    networks:
+      - agaat-network
+      - agaat-services-network
+
+networks:
+  agaat-network:
+  agaat-services-network:
+    external: true
